@@ -13,6 +13,7 @@ import jgaul.DAO.ClientScheduleQuery;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class loginController implements Initializable {
@@ -22,10 +23,18 @@ public class loginController implements Initializable {
     public TextField passwordTextField;
     public Label passwordLabel;
     public Label loginErrorMessage;
+    public ResourceBundle frenchLanguageTranslation;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("I am initialized");
+        try  {
+            frenchLanguageTranslation = ResourceBundle.getBundle("languages/Nat", Locale.getDefault());
+            if (Locale.getDefault().getLanguage().equals("fr")) {
+                setFrenchLanguage();
+            }
+        } catch (Exception e) {
+            // System.out.println(e.getMessage());
+        }
     }
 
     public void loginButtonClicked(ActionEvent actionEvent) throws IOException {
@@ -38,6 +47,12 @@ public class loginController implements Initializable {
             window.setScene(new Scene(root));
             window.show();
         }
+    }
+    private void setFrenchLanguage(){
+        usernameLabel.setText(frenchLanguageTranslation.getString("Username"));
+        passwordLabel.setText(frenchLanguageTranslation.getString("Password"));
+        loginButton.setText(frenchLanguageTranslation.getString("Login"));
+
     }
 
 }
