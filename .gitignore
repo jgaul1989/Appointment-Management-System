@@ -46,7 +46,7 @@ cmake-build-*/
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
 
-# File-based project format
+# File-based view format
 *.iws
 
 # IntelliJ

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jgaul.controller.loginController">
+   <children>
+      <Button fx:id="button45" mnemonicParsing="false" onAction="#loginButtonClicked" text="Login" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="200.0" />
+   </children>
+</AnchorPane>
