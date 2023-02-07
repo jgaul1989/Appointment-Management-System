@@ -13,6 +13,7 @@ import jgaul.DAO.ClientScheduleQuery;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -24,6 +25,8 @@ public class loginController implements Initializable {
     public Label passwordLabel;
     public Label loginErrorMessage;
     public ResourceBundle frenchLanguageTranslation;
+    public static boolean isValidUsername;
+    public Label zoneIDLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -35,23 +38,46 @@ public class loginController implements Initializable {
         } catch (Exception e) {
             // System.out.println(e.getMessage());
         }
+        zoneIDLabel.setText(ZoneId.systemDefault().getId());
     }
 
     public void loginButtonClicked(ActionEvent actionEvent) throws IOException {
         String username = userNameTextField.getText();
         String password = passwordTextField.getText();
 
-        if (ClientScheduleQuery.loginValidation(username, password, loginErrorMessage)) {
+        if (ClientScheduleQuery.loginValidation(username, password)) {
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/success.fxml"));
             Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));
             window.show();
+        } else {
+            setLoginErrorMessage();
         }
     }
     private void setFrenchLanguage(){
         usernameLabel.setText(frenchLanguageTranslation.getString("Username"));
         passwordLabel.setText(frenchLanguageTranslation.getString("Password"));
         loginButton.setText(frenchLanguageTranslation.getString("Login"));
+    }
+
+    private void setLoginErrorMessage() {
+        if(Locale.getDefault().getLanguage().equals("en")) {
+            if (!isValidUsername) {
+                loginErrorMessage.setText("Invalid username");
+            } else {
+                loginErrorMessage.setText("Invalid password");
+            }
+        } else {
+            if (!isValidUsername) {
+                String invalidUsername = frenchLanguageTranslation.getString("Invalid") + " " +
+                        frenchLanguageTranslation.getString("username");
+                loginErrorMessage.setText(invalidUsername);
+            } else {
+                String invalidPassword = frenchLanguageTranslation.getString("Invalid") + " " +
+                        frenchLanguageTranslation.getString("password");
+                loginErrorMessage.setText(invalidPassword);
+            }
+        }
 
     }
 

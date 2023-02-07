@@ -24,5 +24,10 @@
             <Font name="Arial" size="18.0" />
          </font>
       </Label>
+      <Label fx:id="zoneIDLabel" layoutX="500.0" layoutY="190.0" text="Zone ID: " AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="180.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

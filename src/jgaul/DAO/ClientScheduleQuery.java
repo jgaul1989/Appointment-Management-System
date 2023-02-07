@@ -9,9 +9,9 @@ import java.sql.SQLException;
 
 public abstract class ClientScheduleQuery {
 
-    public static boolean loginValidation(String username, String password, Label errorMessage) {
+    public static boolean loginValidation(String username, String password) {
         String validUserPassword = "";
-        boolean userNameFound = false;
+        loginController.isValidUsername = false;
 
         try {
             String sql = "SELECT Password FROM users WHERE User_Name = ?";
@@ -21,18 +21,13 @@ public abstract class ClientScheduleQuery {
 
             while(resultSet.next()) {
                 validUserPassword = resultSet.getString("Password");
-                userNameFound = true;
+                loginController.isValidUsername = true;
             }
         } catch(SQLException e) {
             System.out.println(e.getMessage());
         }
-        if (!userNameFound) {
-            errorMessage.setText("Invalid username");
+        if (!loginController.isValidUsername) {
             return false;
-        } else if (!(validUserPassword.equals(password))) {
-            errorMessage.setText("Invalid password");
-            return false;
-        }
-        return true;
+        } else return validUserPassword.equals(password);
     }
 }
