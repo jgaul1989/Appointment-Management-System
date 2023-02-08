@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import jgaul.DAO.ClientScheduleQuery;
+import jgaul.model.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,19 +25,19 @@ public class loginController implements Initializable {
     public TextField passwordTextField;
     public Label passwordLabel;
     public Label loginErrorMessage;
-    public ResourceBundle frenchLanguageTranslation;
-    public static boolean isValidUsername;
+    private ResourceBundle frenchLanguageTranslation;
     public Label zoneIDLabel;
+    private User currentUser;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try  {
-            frenchLanguageTranslation = ResourceBundle.getBundle("languages/Nat", Locale.getDefault());
+            frenchLanguageTranslation = ResourceBundle.getBundle("jgaul/languages/Nat", Locale.getDefault());
             if (Locale.getDefault().getLanguage().equals("fr")) {
                 setFrenchLanguage();
             }
         } catch (Exception e) {
-            // System.out.println(e.getMessage());
+
         }
         zoneIDLabel.setText(ZoneId.systemDefault().getId());
     }
@@ -44,9 +45,10 @@ public class loginController implements Initializable {
     public void loginButtonClicked(ActionEvent actionEvent) throws IOException {
         String username = userNameTextField.getText();
         String password = passwordTextField.getText();
+        currentUser = new User(username, password);
 
-        if (ClientScheduleQuery.loginValidation(username, password)) {
-            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/success.fxml"));
+        if (ClientScheduleQuery.loginValidation(currentUser)) {
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/mainMenu.fxml"));
             Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));
             window.show();
@@ -62,13 +64,13 @@ public class loginController implements Initializable {
 
     private void setLoginErrorMessage() {
         if(Locale.getDefault().getLanguage().equals("en")) {
-            if (!isValidUsername) {
+            if (!currentUser.isValidUsername()) {
                 loginErrorMessage.setText("Invalid username");
             } else {
                 loginErrorMessage.setText("Invalid password");
             }
         } else {
-            if (!isValidUsername) {
+            if (!currentUser.isValidUsername()) {
                 String invalidUsername = frenchLanguageTranslation.getString("Invalid") + " " +
                         frenchLanguageTranslation.getString("username");
                 loginErrorMessage.setText(invalidUsername);
@@ -78,7 +80,6 @@ public class loginController implements Initializable {
                 loginErrorMessage.setText(invalidPassword);
             }
         }
-
     }
 
 }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jgaul.controller.mainMenuController">
+   <children>
+      <Label text="Customer &amp; Appointment Management System" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+      </Label>
+      <TabPane prefHeight="400.0" prefWidth="875.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="50.0">
+        <tabs>
+          <Tab text="Customers">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="350.0" prefWidth="875.0">
+                     <children>
+                        <TableView fx:id="customerTableView" prefHeight="350.0" prefWidth="865.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                          <columns>
+                            <TableColumn fx:id="customerTableIDCol" prefWidth="90.0" text="Customer ID" />
+                            <TableColumn fx:id="customerNameCol" prefWidth="105.0" text="Customer Name" />
+                              <TableColumn fx:id="addressCol" prefWidth="71.0" text="Address" />
+                              <TableColumn fx:id="postalCodeCol" prefWidth="92.0" text="Postal Code" />
+                              <TableColumn fx:id="phoneCol" prefWidth="70.0" text="Phone" />
+                              <TableColumn fx:id="createDateCol" text="Create Date" />
+                              <TableColumn fx:id="createdByCol" prefWidth="85.0" text="Created By" />
+                              <TableColumn fx:id="lastUpdateCol" prefWidth="86.0" text="Last Update" />
+                              <TableColumn fx:id="lastUpdateByCol" prefWidth="101.0" text="Last Update By" />
+                              <TableColumn fx:id="divisionIDCol" text="Division ID" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Appointments">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="350.0" prefWidth="875.0">
+                     <children>
+                        <TableView fx:id="allAppointmentsTableView" prefHeight="350.0" prefWidth="865.0">
+                           <columns>
+                              <TableColumn fx:id="appointmentIDCol" prefWidth="104.0" text="Appointment ID" />
+                              <TableColumn fx:id="titleCol" prefWidth="62.0" text="Title" />
+                              <TableColumn fx:id="descriptionCol" prefWidth="100.0" text="Description" />
+                              <TableColumn fx:id="locationCol" prefWidth="92.0" text="Location" />
+                              <TableColumn fx:id="contactCol" prefWidth="70.0" text="Contact" />
+                              <TableColumn fx:id="typeCol" text="Type" />
+                              <TableColumn fx:id="startDateTimeCol" prefWidth="85.0" text="Start Date Time" />
+                              <TableColumn fx:id="endDateTimeCol" prefWidth="86.0" text="End Date Time" />
+                              <TableColumn fx:id="customerAppointmentIDCol" prefWidth="101.0" text="Customer ID" />
+                              <TableColumn fx:id="userIDCol" text="User ID" />
+                           </columns>
+                        </TableView>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
