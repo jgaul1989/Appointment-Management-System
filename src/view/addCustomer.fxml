@@ -4,7 +4,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
 <AnchorPane prefHeight="600.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jgaul.controller.addCustomerController">
    <children>
       <GridPane alignment="CENTER" prefHeight="400.0" prefWidth="400.0" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="100.0">
@@ -26,7 +25,7 @@
          <children>
             <Button mnemonicParsing="false" onAction="#submitCustomer" text="Submit" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM" />
             <TextField disable="true" editable="false" prefHeight="25.0" prefWidth="412.0" text="Auto-Generated" GridPane.columnIndex="1" />
-            <ComboBox fx:id="countryCB" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ComboBox fx:id="countryCB" onAction="#countrySelected" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label text="Customer ID" GridPane.halignment="LEFT">
                <font>
                   <Font name="Arial Bold" size="12.0" />

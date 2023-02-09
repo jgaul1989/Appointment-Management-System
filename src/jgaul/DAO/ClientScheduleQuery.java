@@ -2,7 +2,9 @@ package jgaul.DAO;
 
 import javafx.beans.Observable;
 import javafx.collections.ObservableList;
+import jgaul.model.Country;
 import jgaul.model.Customer;
+import jgaul.model.Division;
 import jgaul.model.User;
 
 import java.sql.PreparedStatement;
@@ -53,6 +55,38 @@ public abstract class ClientScheduleQuery {
             }
 
         } catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void selectAllCountries(ObservableList<Country> allCountries) {
+        String sql = "SELECT Country, Country_ID FROM countries";
+
+        try {
+            PreparedStatement selectCountries = JDBC.getConnection().prepareStatement(sql);
+            ResultSet resultSet = selectCountries.executeQuery();
+            while(resultSet.next()) {
+                String name = resultSet.getString("Country");
+                int id = resultSet.getInt("Country_ID");
+                allCountries.add(new Country(name, id));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void selectAllDivisions(ObservableList<Division> allDivisions) {
+        String sql = "SELECT Division, Country_ID FROM first_level_divisions";
+
+        try {
+            PreparedStatement selectDivisions = JDBC.getConnection().prepareStatement(sql);
+            ResultSet resultSet = selectDivisions.executeQuery();
+            while(resultSet.next()) {
+                String name = resultSet.getString("Division");
+                int id = resultSet.getInt("Country_ID");
+                allDivisions.add(new Division(name, id));
+            }
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
