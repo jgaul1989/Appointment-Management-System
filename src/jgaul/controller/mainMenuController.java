@@ -2,13 +2,21 @@ package jgaul.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import jgaul.DAO.ClientScheduleQuery;
 import jgaul.model.Customer;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -23,6 +31,7 @@ public class mainMenuController implements Initializable {
     public TableColumn<Customer, String> divisionCol;
     public TableColumn<Customer, String> countryCol;
     public ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
+    public Tab customerTab;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -36,5 +45,14 @@ public class mainMenuController implements Initializable {
         divisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
         countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
 
+    }
+
+    public void addSelectedObject(ActionEvent actionEvent) throws IOException {
+        if (customerTab.isSelected()) {
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/addCustomer.fxml"));
+            Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+            window.show();
+        }
     }
 }

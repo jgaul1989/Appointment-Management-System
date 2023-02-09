@@ -11,13 +11,14 @@
             <Font name="Arial Bold" size="14.0" />
          </font>
       </Label>
-      <TabPane prefHeight="400.0" prefWidth="875.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="50.0">
+      <Button mnemonicParsing="false" onAction="#addSelectedObject" text="Add" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="450.0" />
+      <TabPane prefHeight="400.0" prefWidth="875.0" tabClosingPolicy="ALL_TABS" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="50.0">
         <tabs>
-          <Tab text="Customers">
+          <Tab fx:id="customerTab" text="Customers">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="350.0" prefWidth="875.0">
                      <children>
-                        <TableView fx:id="customerTableView" prefHeight="350.0" prefWidth="865.0">
+                        <TableView fx:id="customerTableView" prefHeight="350.0" prefWidth="875.0">
                           <columns>
                             <TableColumn fx:id="customerTableIDCol" prefWidth="90.0" text="Customer ID" />
                             <TableColumn fx:id="customerNameCol" prefWidth="105.0" text="Customer Name" />
@@ -36,7 +37,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="350.0" prefWidth="875.0">
                      <children>
-                        <TableView fx:id="allAppointmentsTableView" prefHeight="350.0" prefWidth="865.0">
+                        <TableView fx:id="allAppointmentsTableView" prefHeight="350.0" prefWidth="875.0">
                            <columns>
                               <TableColumn fx:id="appointmentIDCol" prefWidth="104.0" text="Appointment ID" />
                               <TableColumn fx:id="titleCol" prefWidth="62.0" text="Title" />
