@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import jgaul.DAO.ClientScheduleQuery;
 import jgaul.DAO.JDBC;
 
 import java.time.ZoneId;
@@ -24,7 +25,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
 
-        //Locale.setDefault(new Locale("fr"));
+        Locale.setDefault(new Locale("fr"));
         JDBC.makeConnection();
         launch(args);
         JDBC.closeConnection();

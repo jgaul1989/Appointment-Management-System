@@ -1,5 +1,8 @@
 package jgaul.DAO;
 
+import javafx.beans.Observable;
+import javafx.collections.ObservableList;
+import jgaul.model.Customer;
 import jgaul.model.User;
 
 import java.sql.PreparedStatement;
@@ -27,5 +30,30 @@ public abstract class ClientScheduleQuery {
         if (!currentUser.isValidUsername()) {
             return false;
         } else return validUserPassword.equals(currentUser.getPassword());
+    }
+
+    public static void selectAllCustomers(ObservableList<Customer> allCustomers) {
+        String sql = "SELECT Customer_ID, Customer_Name, Address, Postal_Code, Phone, Division, Country " +
+                "FROM customers " +
+                "INNER JOIN first_level_divisions ON customers.Division_ID = first_level_divisions.Division_ID " +
+                "INNER JOIN countries ON first_level_divisions.Country_ID = countries.Country_ID";
+        try {
+            PreparedStatement selectCustomers = JDBC.getConnection().prepareStatement(sql);
+            ResultSet resultSet = selectCustomers.executeQuery();
+            while(resultSet.next()) {
+                int customerID = resultSet.getInt("Customer_ID");
+                String name = resultSet.getString("Customer_Name");
+                String address = resultSet.getString("Address");
+                String postalCode = resultSet.getString("Postal_Code");
+                String phoneNumber = resultSet.getString("Phone");
+                String division = resultSet.getString("Division");
+                String country = resultSet.getString("Country");
+                Customer nextCustomer = new Customer(customerID, name, address, postalCode, phoneNumber, division, country);
+                allCustomers.add(nextCustomer);
+            }
+
+        } catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
