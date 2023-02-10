@@ -1,12 +1,14 @@
 package jgaul.model;
 
 public class Division {
-    private String name;
-    private int countryID;
+    private final String name;
+    private final int countryID;
+    private final int divisionID;
 
-    public Division(String name, int countryID) {
+    public Division(String name, int countryID, int divisionID) {
         this.name = name;
         this.countryID = countryID;
+        this.divisionID = divisionID;
     }
 
     public String getName() {
@@ -16,6 +18,10 @@ public class Division {
 
     public int getCountryID() {
         return countryID;
+    }
+
+    public int getDivisionID() {
+        return divisionID;
     }
 
     @Override

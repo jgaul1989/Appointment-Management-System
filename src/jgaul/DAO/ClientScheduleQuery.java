@@ -76,18 +76,38 @@ public abstract class ClientScheduleQuery {
     }
 
     public static void selectAllDivisions(ObservableList<Division> allDivisions) {
-        String sql = "SELECT Division, Country_ID FROM first_level_divisions";
+        String sql = "SELECT Division_ID, Division, Country_ID FROM first_level_divisions";
 
         try {
             PreparedStatement selectDivisions = JDBC.getConnection().prepareStatement(sql);
             ResultSet resultSet = selectDivisions.executeQuery();
             while(resultSet.next()) {
                 String name = resultSet.getString("Division");
-                int id = resultSet.getInt("Country_ID");
-                allDivisions.add(new Division(name, id));
+                int countryID = resultSet.getInt("Country_ID");
+                int divisionID = resultSet.getInt("Division_ID");
+                allDivisions.add(new Division(name, countryID, divisionID));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
+
+    public static void insertIntoCustomers(String name, String address, String postalCode,
+                                           String phone, Division division){
+
+        String sql = "INSERT into customers(Customer_Name, Address, Postal_Code, Phone, Division_ID) " +
+                "VALUES (?,?,?,?,?)";
+        try {
+            PreparedStatement insertStatement = JDBC.getConnection().prepareStatement(sql);
+            insertStatement.setString(1, name);
+            insertStatement.setString(2, address);
+            insertStatement.setString(3, postalCode);
+            insertStatement.setString(4, phone);
+            insertStatement.setInt(5, division.getDivisionID());
+            insertStatement.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 }

@@ -26,10 +26,10 @@ public class addCustomerController implements Initializable {
     public TextField postalTF;
     public TextField phoneTF;
     public ComboBox<Division> divisionCB;
-    private ObservableList<Country> allCountries = FXCollections.observableArrayList();
-    private ObservableList<Division> americaDivision = FXCollections.observableArrayList();
-    private ObservableList<Division> canadaDivision = FXCollections.observableArrayList();
-    private ObservableList<Division> ukDivision = FXCollections.observableArrayList();
+    private final ObservableList<Country> allCountries = FXCollections.observableArrayList();
+    private final ObservableList<Division> americaDivision = FXCollections.observableArrayList();
+    private final ObservableList<Division> canadaDivision = FXCollections.observableArrayList();
+    private final ObservableList<Division> ukDivision = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -46,17 +46,26 @@ public class addCustomerController implements Initializable {
         ObservableList<Division> allDivisions = FXCollections.observableArrayList();
         ClientScheduleQuery.selectAllDivisions(allDivisions);
 
-        for (int i = 0; i < allDivisions.size(); i++) {
-            int divisionNum = allDivisions.get(i).getCountryID();
+        for (Division division : allDivisions) {
+            int divisionNum = division.getCountryID();
             switch (divisionNum) {
-                case 1 -> americaDivision.add(allDivisions.get(i));
-                case 2 -> ukDivision.add(allDivisions.get(i));
-                case 3 -> canadaDivision.add(allDivisions.get(i));
+                case 1 -> americaDivision.add(division);
+                case 2 -> ukDivision.add(division);
+                case 3 -> canadaDivision.add(division);
             }
         }
     }
 
-    public void submitCustomer(ActionEvent actionEvent) {
+    public void submitCustomer(ActionEvent actionEvent) throws IOException {
+        String name = customerNameTF.getText();
+        String address = addressTF.getText();
+        String postalCode = postalTF.getText();
+        String phone = phoneTF.getText();
+        Country country = countryCB.getValue();
+        Division division = divisionCB.getValue();
+        ClientScheduleQuery.insertIntoCustomers(name, address, postalCode, phone, division);
+
+        cancelAddCustomer(actionEvent);
     }
 
     public void cancelAddCustomer(ActionEvent actionEvent) throws IOException {
@@ -75,6 +84,6 @@ public class addCustomerController implements Initializable {
         } else if (countryID == 3) {
             divisionCB.setItems(canadaDivision);
         }
-
     }
+
 }

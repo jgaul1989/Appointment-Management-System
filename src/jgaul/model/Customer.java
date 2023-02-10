@@ -8,6 +8,7 @@ public class Customer {
     private String phoneNumber;
     private String division;
     private String country;
+    private int division_ID;
 
     public Customer(int customerID, String customerName, String address, String postalCode,
                     String phoneNumber, String division, String country) {
@@ -74,5 +75,9 @@ public class Customer {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public void setDivision_ID(int division_ID) {
+        this.division_ID = division_ID;
     }
 }
