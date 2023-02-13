@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import jgaul.DAO.ClientScheduleQuery;
 import jgaul.model.Customer;
+import jgaul.utility.Helper;
 
 import java.io.IOException;
 import java.net.URL;
@@ -53,6 +54,20 @@ public class mainMenuController implements Initializable {
             Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));
             window.show();
+        }
+    }
+
+    public void modifySelectedObject(ActionEvent actionEvent) throws IOException {
+        if (customerTab.isSelected()) {
+            if (customerTableView.getSelectionModel().getSelectedItem() == null) {
+                return;
+            } else {
+                Helper.setCustomerToModify(customerTableView.getSelectionModel().getSelectedItem());
+                Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/modifyCustomer.fxml"));
+                Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+                window.setScene(new Scene(root));
+                window.show();
+            }
         }
     }
 }

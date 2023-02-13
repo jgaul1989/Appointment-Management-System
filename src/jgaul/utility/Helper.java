@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import jgaul.DAO.ClientScheduleQuery;
 import jgaul.model.Country;
+import jgaul.model.Customer;
 import jgaul.model.Division;
 import jgaul.model.User;
 
@@ -17,6 +18,7 @@ public abstract class Helper {
     public static final ObservableList<Division> canadaDivision = FXCollections.observableArrayList();
     public static final ObservableList<Division> ukDivision = FXCollections.observableArrayList();
     private static String currentUser;
+    private static Customer customerToModify;
 
     public static void initializeConstantFields() {
         ClientScheduleQuery.selectAllCountries(allCountries);
@@ -57,12 +59,18 @@ public abstract class Helper {
     }
 
     public static void setCurrentUser(User user) {
-        currentUser = user.getUsername();
+        Helper.currentUser = user.getUsername();
     }
 
     public static String getCurrentUser() {
         return currentUser;
     }
 
+    public static Customer getCustomerToModify() {
+        return customerToModify;
+    }
 
+    public static void setCustomerToModify(Customer customerToModify) {
+        Helper.customerToModify = customerToModify;
+    }
 }
