@@ -40,15 +40,15 @@ public class modifyCustomerController implements Initializable {
         addressTF.setText(Helper.getCustomerToModify().getAddress());
         postalTF.setText(Helper.getCustomerToModify().getPostalCode());
         phoneTF.setText(Helper.getCustomerToModify().getPhoneNumber());
-        String countryName = Helper.getCustomerToModify().getCountry();
 
+        String countryName = Helper.getCustomerToModify().getCountry();
         Country userCountry = Helper.allCountries.stream()
                 .filter(country -> countryName.equals(country.getCountryName()))
                 .findFirst().orElse(Helper.allCountries.get(0));
         countryCB.setValue(userCountry);
+
         String divisionName = Helper.getCustomerToModify().getDivision();
         setDivision(userCountry, divisionName);
-
     }
 
     public void submitCustomer(ActionEvent actionEvent) throws IOException {
@@ -72,7 +72,7 @@ public class modifyCustomerController implements Initializable {
         if (Helper.checkForNullValue("Country and State/Province fields both need a valid selection.", division)) {
             return;
         }
-        ClientScheduleQuery.insertIntoCustomers(name, address, postalCode, phone, division);
+        ClientScheduleQuery.modifyCustomer(Integer.parseInt(customerIDTF.getText()), name, address, postalCode, phone, division);
 
         backToMain(actionEvent);
     }

@@ -99,7 +99,8 @@ public abstract class ClientScheduleQuery {
     public static void insertIntoCustomers(String name, String address, String postalCode,
                                            String phone, Division division){
 
-        String sql = "INSERT into customers(Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID) " +
+        String sql = "INSERT into customers(Customer_Name, Address, Postal_Code, Phone, Create_Date," +
+                " Created_By, Last_Update, Last_Updated_By, Division_ID) " +
                 "VALUES (?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement insertStatement = JDBC.getConnection().prepareStatement(sql);
@@ -114,6 +115,29 @@ public abstract class ClientScheduleQuery {
             insertStatement.setInt(9, division.getDivisionID());
             insertStatement.executeUpdate();
         } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void modifyCustomer(int customerId, String name, String address, String postalCode,
+                                      String phone, Division division) {
+
+        String sql ="Update customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, " +
+                "Last_Update = ?, Last_Updated_By = ?, Division_ID = ? " +
+                "WHERE Customer_ID = ?";
+
+        try{
+            PreparedStatement updateStatement = JDBC.getConnection().prepareStatement(sql);
+            updateStatement.setString(1, name);
+            updateStatement.setString(2, address);
+            updateStatement.setString(3, postalCode);
+            updateStatement.setString(4, phone);
+            updateStatement.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
+            updateStatement.setString(6, Helper.getCurrentUser());
+            updateStatement.setInt(7, division.getDivisionID());
+            updateStatement.setInt(8, customerId);
+            updateStatement.executeUpdate();
+        } catch(Exception e) {
             System.out.println(e.getMessage());
         }
     }
