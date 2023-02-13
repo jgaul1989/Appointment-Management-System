@@ -2,19 +2,12 @@ package jgaul.utility;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.stage.Stage;
 import jgaul.DAO.ClientScheduleQuery;
 import jgaul.model.Country;
 import jgaul.model.Division;
+import jgaul.model.User;
 
-import javax.imageio.IIOException;
-import java.io.IOException;
 
 public abstract class Helper {
 
@@ -23,6 +16,7 @@ public abstract class Helper {
     public static final ObservableList<Division> americaDivision = FXCollections.observableArrayList();
     public static final ObservableList<Division> canadaDivision = FXCollections.observableArrayList();
     public static final ObservableList<Division> ukDivision = FXCollections.observableArrayList();
+    private static String currentUser;
 
     public static void initializeConstantFields() {
         ClientScheduleQuery.selectAllCountries(allCountries);
@@ -60,6 +54,14 @@ public abstract class Helper {
             return true;
         }
         return false;
+    }
+
+    public static void setCurrentUser(User user) {
+        currentUser = user.getUsername();
+    }
+
+    public static String getCurrentUser() {
+        return currentUser;
     }
 
 

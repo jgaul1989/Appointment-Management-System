@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import jgaul.DAO.ClientScheduleQuery;
 import jgaul.model.User;
+import jgaul.utility.Helper;
 
 import java.io.IOException;
 import java.net.URL;
@@ -48,6 +49,7 @@ public class loginController implements Initializable {
         currentUser = new User(username, password);
 
         if (ClientScheduleQuery.loginValidation(currentUser)) {
+            Helper.setCurrentUser(currentUser);
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/mainMenu.fxml"));
             Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));
