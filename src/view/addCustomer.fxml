@@ -66,7 +66,7 @@
             <TextField fx:id="postalTF" layoutX="183.0" layoutY="141.0" prefHeight="25.0" prefWidth="412.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="phoneTF" layoutX="183.0" layoutY="198.0" prefHeight="25.0" prefWidth="412.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <ComboBox fx:id="divisionCB" layoutX="183.0" layoutY="312.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Button layoutX="10.0" layoutY="385.0" mnemonicParsing="false" onAction="#cancelAddCustomer" text="Cancel" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM" />
+            <Button layoutX="10.0" layoutY="385.0" mnemonicParsing="false" onAction="#backToMain" text="Cancel" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM" />
          </children>
       </GridPane>
       <Label text="Add Customer" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="50.0">

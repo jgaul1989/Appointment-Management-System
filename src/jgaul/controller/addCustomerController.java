@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import jgaul.DAO.ClientScheduleQuery;
 import jgaul.model.Country;
 import jgaul.model.Division;
+import jgaul.utility.Helper;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,49 +27,39 @@ public class addCustomerController implements Initializable {
     public TextField postalTF;
     public TextField phoneTF;
     public ComboBox<Division> divisionCB;
-    private final ObservableList<Country> allCountries = FXCollections.observableArrayList();
-    private final ObservableList<Division> americaDivision = FXCollections.observableArrayList();
-    private final ObservableList<Division> canadaDivision = FXCollections.observableArrayList();
-    private final ObservableList<Division> ukDivision = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        loadCountries();
-        loadDivisions();
-    }
-
-    private void loadCountries() {
-        ClientScheduleQuery.selectAllCountries(allCountries);
-        countryCB.setItems(allCountries);
-    }
-
-    private void loadDivisions() {
-        ObservableList<Division> allDivisions = FXCollections.observableArrayList();
-        ClientScheduleQuery.selectAllDivisions(allDivisions);
-
-        for (Division division : allDivisions) {
-            int divisionNum = division.getCountryID();
-            switch (divisionNum) {
-                case 1 -> americaDivision.add(division);
-                case 2 -> ukDivision.add(division);
-                case 3 -> canadaDivision.add(division);
-            }
-        }
+        countryCB.setItems(Helper.allCountries);
     }
 
     public void submitCustomer(ActionEvent actionEvent) throws IOException {
         String name = customerNameTF.getText();
+        if (Helper.checkForBlankString("Name field is blank.", name)) {
+            return;
+        }
         String address = addressTF.getText();
+        if (Helper.checkForBlankString("Address field is blank.", address)) {
+            return;
+        }
         String postalCode = postalTF.getText();
+        if (Helper.checkForBlankString("Postal Code is blank.", postalCode)) {
+            return;
+        }
         String phone = phoneTF.getText();
-        Country country = countryCB.getValue();
+        if (Helper.checkForBlankString("Phone number is blank.", phone)) {
+            return;
+        }
         Division division = divisionCB.getValue();
+        if (Helper.checkForNullValue("Country and State/Province fields both need a valid selection.", division)) {
+            return;
+        }
         ClientScheduleQuery.insertIntoCustomers(name, address, postalCode, phone, division);
 
-        cancelAddCustomer(actionEvent);
+        backToMain(actionEvent);
     }
 
-    public void cancelAddCustomer(ActionEvent actionEvent) throws IOException {
+    public void backToMain(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/mainMenu.fxml"));
         Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
         window.setScene(new Scene(root));
@@ -78,11 +69,11 @@ public class addCustomerController implements Initializable {
     public void countrySelected(ActionEvent actionEvent) {
         int countryID = countryCB.getValue().getCountryID();
         if (countryID == 1) {
-            divisionCB.setItems(americaDivision);
+            divisionCB.setItems(Helper.americaDivision);
         } else if (countryID == 2) {
-            divisionCB.setItems(ukDivision);
+            divisionCB.setItems(Helper.ukDivision);
         } else if (countryID == 3) {
-            divisionCB.setItems(canadaDivision);
+            divisionCB.setItems(Helper.canadaDivision);
         }
     }
 

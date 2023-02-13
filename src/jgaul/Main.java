@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import jgaul.DAO.ClientScheduleQuery;
 import jgaul.DAO.JDBC;
+import jgaul.utility.Helper;
 
 import java.time.ZoneId;
 import java.util.Locale;
@@ -27,6 +28,7 @@ public class Main extends Application {
 
         //Locale.setDefault(new Locale("fr"));
         JDBC.makeConnection();
+        Helper.initializeConstantFields();
         launch(args);
         JDBC.closeConnection();
     }
