@@ -26,18 +26,28 @@ public class modifyCustomerController implements Initializable {
     public TextField postalTF;
     public TextField phoneTF;
     public ComboBox<Division> divisionCB;
+    public TextField customerIDTF;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         countryCB.setItems(Helper.allCountries);
+        setTextFields();
     }
 
     private void setTextFields(){
+        customerIDTF.setText(String.valueOf(Helper.getCustomerToModify().getCustomerID()));
         customerNameTF.setText(Helper.getCustomerToModify().getCustomerName());
         addressTF.setText(Helper.getCustomerToModify().getAddress());
         postalTF.setText(Helper.getCustomerToModify().getPostalCode());
         phoneTF.setText(Helper.getCustomerToModify().getPhoneNumber());
-        String countryToFind = Helper.getCustomerToModify().getCountry();
+        String countryName = Helper.getCustomerToModify().getCountry();
+
+        Country userCountry = Helper.allCountries.stream()
+                .filter(country -> countryName.equals(country.getCountryName()))
+                .findFirst().orElse(Helper.allCountries.get(0));
+        countryCB.setValue(userCountry);
+        String divisionName = Helper.getCustomerToModify().getDivision();
+        setDivision(userCountry, divisionName);
 
     }
 
@@ -84,4 +94,28 @@ public class modifyCustomerController implements Initializable {
             divisionCB.setItems(Helper.canadaDivision);
         }
     }
+
+    private void setDivision(Country country, String divisionName) {
+        int countryID = country.getCountryID();
+        if (countryID == 1) {
+            divisionCB.setItems(Helper.americaDivision);
+            Division userDivision = Helper.americaDivision.stream()
+                    .filter(division -> divisionName.equals(division.getName()))
+                    .findFirst().orElse(Helper.americaDivision.get(0));
+            divisionCB.setValue(userDivision);
+        } else if (countryID == 2) {
+            divisionCB.setItems(Helper.ukDivision);
+            Division userDivision = Helper.ukDivision.stream()
+                    .filter(division -> divisionName.equals(division.getName()))
+                    .findFirst().orElse(Helper.ukDivision.get(0));
+            divisionCB.setValue(userDivision);
+        } else if (countryID == 3) {
+            divisionCB.setItems(Helper.canadaDivision);
+            Division userDivision = Helper.canadaDivision.stream()
+                    .filter(division -> divisionName.equals(division.getName()))
+                    .findFirst().orElse(Helper.canadaDivision.get(0));
+            divisionCB.setValue(userDivision);
+        }
+    }
+
 }

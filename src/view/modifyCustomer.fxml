@@ -24,7 +24,7 @@
         </rowConstraints>
          <children>
             <Button mnemonicParsing="false" onAction="#submitCustomer" text="Submit" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM" />
-            <TextField disable="true" editable="false" prefHeight="25.0" prefWidth="412.0" text="Auto-Generated" GridPane.columnIndex="1" />
+            <TextField fx:id="customerIDTF" disable="true" editable="false" prefHeight="25.0" prefWidth="412.0" GridPane.columnIndex="1" />
             <ComboBox fx:id="countryCB" onAction="#countrySelected" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label text="Customer ID" GridPane.halignment="LEFT">
                <font>
@@ -69,7 +69,7 @@
             <Button layoutX="10.0" layoutY="385.0" mnemonicParsing="false" onAction="#backToMain" text="Cancel" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM" />
          </children>
       </GridPane>
-      <Label text="Add Customer" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="50.0">
+      <Label text="Modify Customer" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="50.0">
          <font>
             <Font name="Arial Bold" size="14.0" />
          </font>
