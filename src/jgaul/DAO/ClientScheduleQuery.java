@@ -2,10 +2,7 @@ package jgaul.DAO;
 
 import javafx.beans.Observable;
 import javafx.collections.ObservableList;
-import jgaul.model.Country;
-import jgaul.model.Customer;
-import jgaul.model.Division;
-import jgaul.model.User;
+import jgaul.model.*;
 import jgaul.utility.Helper;
 
 import java.sql.PreparedStatement;
@@ -125,7 +122,6 @@ public abstract class ClientScheduleQuery {
         String sql ="Update customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, " +
                 "Last_Update = ?, Last_Updated_By = ?, Division_ID = ? " +
                 "WHERE Customer_ID = ?";
-
         try{
             PreparedStatement updateStatement = JDBC.getConnection().prepareStatement(sql);
             updateStatement.setString(1, name);
@@ -138,6 +134,36 @@ public abstract class ClientScheduleQuery {
             updateStatement.setInt(8, customerId);
             updateStatement.executeUpdate();
         } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void selectAllAppointments(ObservableList<Appointment> allAppointments) {
+
+        String sql = "SELECT Appointment_ID, Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_Name " +
+                "FROM appointments " +
+                "INNER JOIN contacts ON appointments.Contact_ID = contacts.Contact_ID";
+        try {
+            PreparedStatement selectAppointments = JDBC.getConnection().prepareStatement(sql);
+            ResultSet resultSet = selectAppointments.executeQuery();
+            while(resultSet.next()) {
+                int appointmentID = resultSet.getInt("Appointment_ID");
+                String title = resultSet.getString("Title");
+                String description = resultSet.getString("Description");
+                String location = resultSet.getString("Location");
+                String type = resultSet.getString("Type");
+                LocalDateTime start = resultSet.getObject("Start", LocalDateTime.class);
+                LocalDateTime end = resultSet.getObject("End", LocalDateTime.class);
+                int customerID = resultSet.getInt("Customer_ID");
+                int userID = resultSet.getInt("User_ID");
+                String contactName = resultSet.getString("Contact_Name");
+
+                Appointment nextAppointment = new Appointment(appointmentID, title, description, location, type,
+                        contactName, start, end, customerID, userID);
+                allAppointments.add(nextAppointment);
+            }
+
+        } catch(SQLException e) {
             System.out.println(e.getMessage());
         }
     }

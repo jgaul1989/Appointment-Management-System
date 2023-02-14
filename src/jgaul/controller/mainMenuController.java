@@ -14,11 +14,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import jgaul.DAO.ClientScheduleQuery;
+import jgaul.model.Appointment;
 import jgaul.model.Customer;
 import jgaul.utility.Helper;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class mainMenuController implements Initializable {
@@ -33,9 +35,27 @@ public class mainMenuController implements Initializable {
     public TableColumn<Customer, String> countryCol;
     public ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
     public Tab customerTab;
+    public Tab allAppointmentsTab;
+    public TableView<Appointment> allAppointmentsTableView;
+    public TableColumn<Appointment, Integer> appointmentIDCol;
+    public TableColumn<Appointment, String> titleCol;
+    public TableColumn<Appointment, String> descriptionCol;
+    public TableColumn<Appointment, String> contactCol;
+    public TableColumn<Appointment, String> locationCol;
+    public TableColumn<Appointment, String> typeCol;
+    public TableColumn<Appointment, LocalDateTime> startDateTimeCol;
+    public TableColumn<Appointment, LocalDateTime> endDateTimeCol;
+    public TableColumn<Appointment, Integer> customerAppointmentIDCol;
+    public TableColumn<Appointment, Integer> userIDCol;
+    public ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        initializeCustomerTable();
+        initializeAppointmentTable();
+    }
+
+    private void initializeCustomerTable() {
         ClientScheduleQuery.selectAllCustomers(allCustomers);
         customerTableView.setItems(allCustomers);
         customerTableIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
@@ -45,7 +65,21 @@ public class mainMenuController implements Initializable {
         phoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         divisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
         countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
+    }
 
+    private void initializeAppointmentTable() {
+        ClientScheduleQuery.selectAllAppointments(allAppointments);
+        allAppointmentsTableView.setItems(allAppointments);
+        appointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        contactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        endDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        customerAppointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        userIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
     public void addSelectedObject(ActionEvent actionEvent) throws IOException {
