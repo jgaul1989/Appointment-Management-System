@@ -9,9 +9,6 @@ import jgaul.DAO.ClientScheduleQuery;
 import jgaul.DAO.JDBC;
 import jgaul.utility.Helper;
 
-import java.time.ZoneId;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 
 public class Main extends Application {

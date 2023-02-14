@@ -11,6 +11,7 @@ import jgaul.model.User;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 
@@ -63,10 +64,7 @@ public abstract class Helper {
     }
 
     public static LocalDateTime convertToUserTime(LocalDateTime databaseTime) {
-        ZonedDateTime step1 = databaseTime.atZone(ZoneId.of("Etc/UTC"));
-        ZonedDateTime step2 = step1.withZoneSameInstant(ZoneId.systemDefault());
-        LocalDateTime step3 = step2.toLocalDateTime();
-        return step3;
+        return databaseTime.atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
     }
 
     public static void setCurrentUser(User user) {
