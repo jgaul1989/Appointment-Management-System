@@ -158,8 +158,11 @@ public abstract class ClientScheduleQuery {
                 int userID = resultSet.getInt("User_ID");
                 String contactName = resultSet.getString("Contact_Name");
 
+                LocalDateTime startConvertedDateTime = Helper.convertToUserTime(start);
+                LocalDateTime endConvertedDateTime = Helper.convertToUserTime(end);
+
                 Appointment nextAppointment = new Appointment(appointmentID, title, description, location, type,
-                        contactName, start, end, customerID, userID);
+                        contactName, startConvertedDateTime, endConvertedDateTime, customerID, userID);
                 allAppointments.add(nextAppointment);
             }
 

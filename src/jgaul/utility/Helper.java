@@ -9,6 +9,10 @@ import jgaul.model.Customer;
 import jgaul.model.Division;
 import jgaul.model.User;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
 
 public abstract class Helper {
 
@@ -56,6 +60,13 @@ public abstract class Helper {
             return true;
         }
         return false;
+    }
+
+    public static LocalDateTime convertToUserTime(LocalDateTime databaseTime) {
+        ZonedDateTime step1 = databaseTime.atZone(ZoneId.of("Etc/UTC"));
+        ZonedDateTime step2 = step1.withZoneSameInstant(ZoneId.systemDefault());
+        LocalDateTime step3 = step2.toLocalDateTime();
+        return step3;
     }
 
     public static void setCurrentUser(User user) {
