@@ -1,7 +1,5 @@
 package jgaul.controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import jgaul.DAO.ClientScheduleQuery;
+import jgaul.DAO.ClientScheduleInsert;
 import jgaul.model.Country;
 import jgaul.model.Division;
 import jgaul.utility.Helper;
@@ -54,7 +52,7 @@ public class addCustomerController implements Initializable {
         if (Helper.checkForNullValue("Country and State/Province fields both need a valid selection.", division)) {
             return;
         }
-        ClientScheduleQuery.insertIntoCustomers(name, address, postalCode, phone, division);
+        ClientScheduleInsert.insertIntoCustomers(name, address, postalCode, phone, division);
 
         backToMain(actionEvent);
     }
@@ -66,7 +64,7 @@ public class addCustomerController implements Initializable {
         window.show();
     }
 
-    public void countrySelected(ActionEvent actionEvent) {
+    public void countrySelected() {
         int countryID = countryCB.getValue().getCountryID();
         if (countryID == 1) {
             divisionCB.setItems(Helper.americaDivision);

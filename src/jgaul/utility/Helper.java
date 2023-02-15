@@ -3,7 +3,7 @@ package jgaul.utility;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
-import jgaul.DAO.ClientScheduleQuery;
+import jgaul.DAO.ClientScheduleSelectQry;
 import jgaul.model.Country;
 import jgaul.model.Customer;
 import jgaul.model.Division;
@@ -11,8 +11,6 @@ import jgaul.model.User;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 
 
 public abstract class Helper {
@@ -26,8 +24,8 @@ public abstract class Helper {
     private static Customer customerToModify;
 
     public static void initializeConstantFields() {
-        ClientScheduleQuery.selectAllCountries(allCountries);
-        ClientScheduleQuery.selectAllDivisions(allDivisions);
+        ClientScheduleSelectQry.selectAllCountries(allCountries);
+        ClientScheduleSelectQry.selectAllDivisions(allDivisions);
 
         for (Division division : allDivisions) {
             int divisionNum = division.getCountryID();

@@ -1,8 +1,8 @@
 package jgaul.model;
 
 public  class Country {
-    private String countryName;
-    private int countryID;
+    private final String countryName;
+    private final int countryID;
 
     public Country(String countryName, int countryID) {
         this.countryName = countryName;

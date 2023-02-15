@@ -1,6 +1,5 @@
 package jgaul.DAO;
 
-import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 import jgaul.model.*;
 import jgaul.utility.Helper;
@@ -8,15 +7,12 @@ import jgaul.utility.Helper;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
-public abstract class ClientScheduleQuery {
+public abstract class ClientScheduleSelectQry {
 
-    public static boolean loginValidation(User currentUser) {
+    public static boolean selectValidUser(User currentUser) {
         String validUserPassword = "";
-
         try {
             String sql = "SELECT Password FROM users WHERE User_Name = ?";
             PreparedStatement userSearch = JDBC.getConnection().prepareStatement(sql);
@@ -89,51 +85,6 @@ public abstract class ClientScheduleQuery {
                 allDivisions.add(new Division(name, countryID, divisionID));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public static void insertIntoCustomers(String name, String address, String postalCode,
-                                           String phone, Division division){
-
-        String sql = "INSERT into customers(Customer_Name, Address, Postal_Code, Phone, Create_Date," +
-                " Created_By, Last_Update, Last_Updated_By, Division_ID) " +
-                "VALUES (?,?,?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement insertStatement = JDBC.getConnection().prepareStatement(sql);
-            insertStatement.setString(1, name);
-            insertStatement.setString(2, address);
-            insertStatement.setString(3, postalCode);
-            insertStatement.setString(4, phone);
-            insertStatement.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
-            insertStatement.setString(6, Helper.getCurrentUser());
-            insertStatement.setTimestamp(7,Timestamp.valueOf(LocalDateTime.now()));
-            insertStatement.setString(8, Helper.getCurrentUser());
-            insertStatement.setInt(9, division.getDivisionID());
-            insertStatement.executeUpdate();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public static void modifyCustomer(int customerId, String name, String address, String postalCode,
-                                      String phone, Division division) {
-
-        String sql ="Update customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, " +
-                "Last_Update = ?, Last_Updated_By = ?, Division_ID = ? " +
-                "WHERE Customer_ID = ?";
-        try{
-            PreparedStatement updateStatement = JDBC.getConnection().prepareStatement(sql);
-            updateStatement.setString(1, name);
-            updateStatement.setString(2, address);
-            updateStatement.setString(3, postalCode);
-            updateStatement.setString(4, phone);
-            updateStatement.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
-            updateStatement.setString(6, Helper.getCurrentUser());
-            updateStatement.setInt(7, division.getDivisionID());
-            updateStatement.setInt(8, customerId);
-            updateStatement.executeUpdate();
-        } catch(Exception e) {
             System.out.println(e.getMessage());
         }
     }

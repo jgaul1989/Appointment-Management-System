@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import jgaul.DAO.ClientScheduleQuery;
+import jgaul.DAO.ClientScheduleUpdate;
 import jgaul.model.Country;
 import jgaul.model.Division;
 import jgaul.utility.Helper;
@@ -17,7 +17,6 @@ import jgaul.utility.Helper;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class modifyCustomerController implements Initializable {
     public ComboBox<Country> countryCB;
@@ -72,7 +71,7 @@ public class modifyCustomerController implements Initializable {
         if (Helper.checkForNullValue("Country and State/Province fields both need a valid selection.", division)) {
             return;
         }
-        ClientScheduleQuery.modifyCustomer(Integer.parseInt(customerIDTF.getText()), name, address, postalCode, phone, division);
+        ClientScheduleUpdate.modifyCustomer(Integer.parseInt(customerIDTF.getText()), name, address, postalCode, phone, division);
 
         backToMain(actionEvent);
     }
@@ -84,7 +83,7 @@ public class modifyCustomerController implements Initializable {
         window.show();
     }
 
-    public void countrySelected(ActionEvent actionEvent) {
+    public void countrySelected() {
         int countryID = countryCB.getValue().getCountryID();
         if (countryID == 1) {
             divisionCB.setItems(Helper.americaDivision);

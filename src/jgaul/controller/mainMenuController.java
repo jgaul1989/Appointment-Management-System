@@ -13,7 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import jgaul.DAO.ClientScheduleQuery;
+import jgaul.DAO.ClientScheduleSelectQry;
 import jgaul.model.Appointment;
 import jgaul.model.Customer;
 import jgaul.utility.Helper;
@@ -24,7 +24,6 @@ import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class mainMenuController implements Initializable {
-
     public TableView<Customer> customerTableView;
     public TableColumn<Customer, Integer> customerTableIDCol;
     public TableColumn<Customer, String> customerNameCol;
@@ -56,7 +55,7 @@ public class mainMenuController implements Initializable {
     }
 
     private void initializeCustomerTable() {
-        ClientScheduleQuery.selectAllCustomers(allCustomers);
+        ClientScheduleSelectQry.selectAllCustomers(allCustomers);
         customerTableView.setItems(allCustomers);
         customerTableIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
@@ -68,7 +67,7 @@ public class mainMenuController implements Initializable {
     }
 
     private void initializeAppointmentTable() {
-        ClientScheduleQuery.selectAllAppointments(allAppointments);
+        ClientScheduleSelectQry.selectAllAppointments(allAppointments);
         allAppointmentsTableView.setItems(allAppointments);
         appointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -85,6 +84,11 @@ public class mainMenuController implements Initializable {
     public void addSelectedObject(ActionEvent actionEvent) throws IOException {
         if (customerTab.isSelected()) {
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/addCustomer.fxml"));
+            Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+            window.show();
+        } else {
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/addAppointment.fxml"));
             Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));
             window.show();

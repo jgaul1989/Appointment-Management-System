@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import jgaul.DAO.ClientScheduleQuery;
+import jgaul.DAO.ClientScheduleSelectQry;
 import jgaul.model.User;
 import jgaul.utility.Helper;
 
@@ -48,7 +48,7 @@ public class loginController implements Initializable {
         String password = passwordTextField.getText();
         currentUser = new User(username, password);
 
-        if (ClientScheduleQuery.loginValidation(currentUser)) {
+        if (ClientScheduleSelectQry.selectValidUser(currentUser)) {
             Helper.setCurrentUser(currentUser);
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/mainMenu.fxml"));
             Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();

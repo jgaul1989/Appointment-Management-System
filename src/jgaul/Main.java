@@ -5,11 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import jgaul.DAO.ClientScheduleQuery;
 import jgaul.DAO.JDBC;
 import jgaul.utility.Helper;
-
-
 
 public class Main extends Application {
 
@@ -20,9 +17,7 @@ public class Main extends Application {
         stage.show();
     }
 
-
     public static void main(String[] args) {
-
         //Locale.setDefault(new Locale("fr"));
         JDBC.makeConnection();
         Helper.initializeConstantFields();
