@@ -14,13 +14,15 @@ public abstract class ClientScheduleSelectQry {
     public static boolean selectValidUser(User currentUser) {
         String validUserPassword = "";
         try {
-            String sql = "SELECT Password FROM users WHERE User_Name = ?";
+            String sql = "SELECT User_ID, Password FROM users WHERE User_Name = ?";
             PreparedStatement userSearch = JDBC.getConnection().prepareStatement(sql);
             userSearch.setString(1, currentUser.getUsername());
             ResultSet resultSet = userSearch.executeQuery();
 
             while(resultSet.next()) {
                 validUserPassword = resultSet.getString("Password");
+                int id = resultSet.getInt("User_ID");
+                currentUser.setUserID(id);
                 currentUser.setValidUsername(true);
             }
         } catch(SQLException e) {
@@ -66,6 +68,38 @@ public abstract class ClientScheduleSelectQry {
                 String name = resultSet.getString("Country");
                 int id = resultSet.getInt("Country_ID");
                 allCountries.add(new Country(name, id));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void selectAllContacts(ObservableList<Contact> allContacts) {
+        String sql = "SELECT Contact_ID, Contact_Name FROM contacts";
+
+        try {
+            PreparedStatement selectContacts = JDBC.getConnection().prepareStatement(sql);
+            ResultSet resultSet = selectContacts.executeQuery();
+            while(resultSet.next()) {
+                String name = resultSet.getString("Contact_Name");
+                int id = resultSet.getInt("Contact_ID");
+                allContacts.add(new Contact(id, name));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void selectAllUsers(ObservableList<User> allUsers) {
+        String sql = "SELECT User_ID, User_Name FROM users";
+
+        try {
+            PreparedStatement selectUsers = JDBC.getConnection().prepareStatement(sql);
+            ResultSet resultSet = selectUsers.executeQuery();
+            while(resultSet.next()) {
+                String name = resultSet.getString("User_Name");
+                int id = resultSet.getInt("User_ID");
+                allUsers.add(new User(name, "restricted", id));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

@@ -22,9 +22,9 @@ public abstract class ClientScheduleInsert {
             insertStatement.setString(3, postalCode);
             insertStatement.setString(4, phone);
             insertStatement.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
-            insertStatement.setString(6, Helper.getCurrentUser());
+            insertStatement.setString(6, Helper.getCurrentUser().getUsername());
             insertStatement.setTimestamp(7,Timestamp.valueOf(LocalDateTime.now()));
-            insertStatement.setString(8, Helper.getCurrentUser());
+            insertStatement.setString(8, Helper.getCurrentUser().getUsername());
             insertStatement.setInt(9, division.getDivisionID());
             insertStatement.executeUpdate();
         } catch (Exception e) {

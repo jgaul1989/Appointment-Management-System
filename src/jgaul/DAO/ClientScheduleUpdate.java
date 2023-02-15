@@ -22,7 +22,7 @@ public abstract class ClientScheduleUpdate {
             updateStatement.setString(3, postalCode);
             updateStatement.setString(4, phone);
             updateStatement.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
-            updateStatement.setString(6, Helper.getCurrentUser());
+            updateStatement.setString(6, Helper.getCurrentUser().getUsername());
             updateStatement.setInt(7, division.getDivisionID());
             updateStatement.setInt(8, customerId);
             updateStatement.executeUpdate();

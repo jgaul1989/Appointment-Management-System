@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import jgaul.DAO.ClientScheduleSelectQry;
-import jgaul.model.Country;
-import jgaul.model.Customer;
-import jgaul.model.Division;
-import jgaul.model.User;
+import jgaul.model.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -20,12 +17,16 @@ public abstract class Helper {
     public static final ObservableList<Division> americaDivision = FXCollections.observableArrayList();
     public static final ObservableList<Division> canadaDivision = FXCollections.observableArrayList();
     public static final ObservableList<Division> ukDivision = FXCollections.observableArrayList();
-    private static String currentUser;
+    public static final ObservableList<Contact> allContacts = FXCollections.observableArrayList();
+    public static final ObservableList<User> allUsers = FXCollections.observableArrayList();
+    private static User currentUser;
     private static Customer customerToModify;
 
     public static void initializeConstantFields() {
         ClientScheduleSelectQry.selectAllCountries(allCountries);
         ClientScheduleSelectQry.selectAllDivisions(allDivisions);
+        ClientScheduleSelectQry.selectAllContacts(allContacts);
+        ClientScheduleSelectQry.selectAllUsers(allUsers);
 
         for (Division division : allDivisions) {
             int divisionNum = division.getCountryID();
@@ -66,10 +67,10 @@ public abstract class Helper {
     }
 
     public static void setCurrentUser(User user) {
-        Helper.currentUser = user.getUsername();
+        Helper.currentUser = user;
     }
 
-    public static String getCurrentUser() {
+    public static User getCurrentUser() {
         return currentUser;
     }
 
