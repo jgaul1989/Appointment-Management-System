@@ -80,7 +80,7 @@
                   <Font name="Arial Bold" size="12.0" />
                </font>
             </Label>
-            <DatePicker fx:id="appointmentDateDP" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <DatePicker fx:id="appointmentDateDP" onAction="#dateSelected" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <ComboBox fx:id="startTimeCB" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Label layoutX="10.0" layoutY="235.0" text="End Time" GridPane.rowIndex="7">
                <font>
