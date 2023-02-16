@@ -19,6 +19,7 @@ public abstract class Helper {
     public static final ObservableList<Division> ukDivision = FXCollections.observableArrayList();
     public static final ObservableList<Contact> allContacts = FXCollections.observableArrayList();
     public static final ObservableList<User> allUsers = FXCollections.observableArrayList();
+    public static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
     private static User currentUser;
     private static Customer customerToModify;
 
@@ -27,6 +28,7 @@ public abstract class Helper {
         ClientScheduleSelectQry.selectAllDivisions(allDivisions);
         ClientScheduleSelectQry.selectAllContacts(allContacts);
         ClientScheduleSelectQry.selectAllUsers(allUsers);
+        allUsers.sort((user1, user2) -> user1.getUserID() - user2.getUserID());
 
         for (Division division : allDivisions) {
             int divisionNum = division.getCountryID();

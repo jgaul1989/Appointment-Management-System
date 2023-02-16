@@ -21,6 +21,7 @@ import jgaul.utility.Helper;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 public class mainMenuController implements Initializable {
@@ -32,7 +33,6 @@ public class mainMenuController implements Initializable {
     public TableColumn<Customer, String> phoneCol;
     public TableColumn<Customer, String> divisionCol;
     public TableColumn<Customer, String> countryCol;
-    public ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
     public Tab customerTab;
     public Tab allAppointmentsTab;
     public TableView<Appointment> allAppointmentsTableView;
@@ -55,8 +55,10 @@ public class mainMenuController implements Initializable {
     }
 
     private void initializeCustomerTable() {
-        ClientScheduleSelectQry.selectAllCustomers(allCustomers);
-        customerTableView.setItems(allCustomers);
+        Helper.allCustomers.clear();
+        ClientScheduleSelectQry.selectAllCustomers(Helper.allCustomers);
+        Helper.allCustomers.sort((customer1, customer2) -> customer1.getCustomerID() - customer2.getCustomerID());
+        customerTableView.setItems(Helper.allCustomers);
         customerTableIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));

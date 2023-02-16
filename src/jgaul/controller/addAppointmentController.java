@@ -3,14 +3,19 @@ package jgaul.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import jgaul.model.Contact;
-import jgaul.model.User;
-import jgaul.model.UserAppointmentTimes;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import jgaul.model.*;
 import jgaul.utility.Helper;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.*;
 import java.util.ResourceBundle;
@@ -26,17 +31,43 @@ public class addAppointmentController implements Initializable {
     public LocalDate selectedDate;
     public ComboBox<UserAppointmentTimes> endTimeCB;
     public ObservableList<UserAppointmentTimes> endTimes = FXCollections.observableArrayList();
+    public ComboBox<Customer> customerCB;
+    public TextField titleTF;
+    public TextField descriptionTF;
+    public TextField locationTF;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         contactCB.setItems(Helper.allContacts);
         userCB.setItems(Helper.allUsers);
+        customerCB.setItems(Helper.allCustomers);
     }
 
-    public void submitAppointment(ActionEvent actionEvent) {
+    public void submitAppointment(ActionEvent actionEvent) throws IOException {
+        String title = titleTF.getText();
+        if (Helper.checkForBlankString("Title field is blank.", title)) {
+            return;
+        }
+        String description = descriptionTF.getText();
+        if (Helper.checkForBlankString("Description field is blank.", description)) {
+            return;
+        }
+        String location = locationTF.getText();
+        if (Helper.checkForBlankString("Location field is blank.", location)) {
+            return;
+        }
+        Contact contact = contactCB.getValue();
+        if (Helper.checkForNullValue("Contact field is blank.", contact)) {
+            return;
+        }
+        backToMain(actionEvent);
     }
 
-    public void backToMain(ActionEvent actionEvent) {
+    public void backToMain(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/mainMenu.fxml"));
+        Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+        window.setScene(new Scene(root));
+        window.show();
     }
 
     public void dateSelected() {
