@@ -74,6 +74,10 @@ public abstract class Helper {
         return databaseTime.atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
     }
 
+    public static LocalDateTime convertToDatabaseTime(LocalDateTime userTime) {
+        return userTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime();
+    }
+
     public static void setCurrentUser(User user) {
         Helper.currentUser = user;
     }

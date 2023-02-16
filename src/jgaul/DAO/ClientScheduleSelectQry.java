@@ -7,6 +7,7 @@ import jgaul.utility.Helper;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public abstract class ClientScheduleSelectQry {
@@ -154,6 +155,27 @@ public abstract class ClientScheduleSelectQry {
         } catch(SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+    public static boolean checkAppointments(Customer customer, LocalDateTime appointment) {
+        int count = 0;
+        String sql = "SELECT * FROM appointments " +
+                "WHERE Customer_ID = ? AND ? BETWEEN Start AND End";
+        try {
+            PreparedStatement selectAppointments = JDBC.getConnection().prepareStatement(sql);
+            selectAppointments.setInt(1, customer.getCustomerID());
+            System.out.println(customer.getCustomerID());
+            System.out.println(appointment);
+            selectAppointments.setString(2, Timestamp.valueOf(appointment).toString());
+            System.out.println(Timestamp.valueOf(appointment));
+            ResultSet resultSet = selectAppointments.executeQuery();
+            while(resultSet.next()) {
+                int appointmentID = resultSet.getInt("Appointment_ID");
+                count += 1;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return count > 0;
     }
 
 }

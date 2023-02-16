@@ -12,6 +12,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import jgaul.DAO.ClientScheduleSelectQry;
 import jgaul.model.*;
 import jgaul.utility.Helper;
 
@@ -36,6 +37,15 @@ public class addAppointmentController implements Initializable {
     public TextField descriptionTF;
     public TextField locationTF;
     public ComboBox<AppointmentType> typeCB;
+    private String title;
+    private String description;
+    private String location;
+    private Contact contact;
+    private AppointmentType appointmentType;
+    private UserAppointmentTimes startTime;
+    private UserAppointmentTimes endTime;
+    private Customer customer;
+    private User user;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -46,47 +56,65 @@ public class addAppointmentController implements Initializable {
     }
 
     public void submitAppointment(ActionEvent actionEvent) throws IOException {
-        String title = titleTF.getText();
-        if (Helper.checkForBlankString("Title field is blank.", title)) {
+        if(!checkAllValues()) {
             return;
         }
-        String description = descriptionTF.getText();
-        if (Helper.checkForBlankString("Description field is blank.", description)) {
+        LocalDateTime startDateTime = Helper.convertToDatabaseTime(LocalDateTime.of(selectedDate,startTime.getTime()));
+        LocalDateTime endDateTime = Helper.convertToDatabaseTime(LocalDateTime.of(selectedDate, endTime.getTime()));
+        if (ClientScheduleSelectQry.checkAppointments(customer, startDateTime)) {
+            System.out.println("Start time conflict");
             return;
         }
-        String location = locationTF.getText();
-        if (Helper.checkForBlankString("Location field is blank.", location)) {
+        if (ClientScheduleSelectQry.checkAppointments(customer, endDateTime)) {
+            System.out.println("End time conflict");
             return;
         }
-        Contact contact = contactCB.getValue();
-        if (Helper.checkForNullValue("Contact field is blank.", contact)) {
-            return;
-        }
-        AppointmentType appointmentType = typeCB.getValue();
-        if (Helper.checkForNullValue("Type field is blank.", appointmentType)) {
-            return;
-        }
-        LocalDate appointmentDate = appointmentDateDP.getValue();
-        if (Helper.checkForNullValue("Date field is blank.", appointmentDate)) {
-            return;
-        }
-        UserAppointmentTimes startTime = startTimeCB.getValue();
-        if (Helper.checkForNullValue("Start time is blank.", startTime)) {
-            return;
-        }
-        UserAppointmentTimes endTime = endTimeCB.getValue();
-        if (Helper.checkForNullValue("End time is blank.", endTime)) {
-            return;
-        }
-        Customer customer = customerCB.getValue();
-        if (Helper.checkForNullValue("Customer ID is blank.", customer)) {
-            return;
-        }
-        User user = userCB.getValue();
-        if (Helper.checkForNullValue("User ID is blank.", user)) {
-            return;
-        }
+
         backToMain(actionEvent);
+    }
+
+    private boolean checkAllValues() {
+        title = titleTF.getText();
+        if (Helper.checkForBlankString("Title field is blank.", title)) {
+            return false;
+        }
+        description = descriptionTF.getText();
+        if (Helper.checkForBlankString("Description field is blank.", description)) {
+            return false;
+        }
+        location = locationTF.getText();
+        if (Helper.checkForBlankString("Location field is blank.", location)) {
+            return false;
+        }
+        contact = contactCB.getValue();
+        if (Helper.checkForNullValue("Contact field is blank.", contact)) {
+            return false;
+        }
+        appointmentType = typeCB.getValue();
+        if (Helper.checkForNullValue("Type field is blank.", appointmentType)) {
+            return false;
+        }
+        selectedDate = appointmentDateDP.getValue();
+        if (Helper.checkForNullValue("Date field is blank.", selectedDate)) {
+            return false;
+        }
+        startTime = startTimeCB.getValue();
+        if (Helper.checkForNullValue("Start time is blank.", startTime)) {
+            return false;
+        }
+        endTime = endTimeCB.getValue();
+        if (Helper.checkForNullValue("End time is blank.", endTime)) {
+            return false;
+        }
+        customer = customerCB.getValue();
+        if (Helper.checkForNullValue("Customer ID is blank.", customer)) {
+            return false;
+        }
+        user = userCB.getValue();
+        if (Helper.checkForNullValue("User ID is blank.", user)) {
+            return false;
+        }
+        return true;
     }
 
     public void backToMain(ActionEvent actionEvent) throws IOException {
@@ -95,6 +123,7 @@ public class addAppointmentController implements Initializable {
         window.setScene(new Scene(root));
         window.show();
     }
+
 
     public void dateSelected() {
         selectedDate = appointmentDateDP.getValue();
