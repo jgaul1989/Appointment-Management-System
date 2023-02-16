@@ -20,15 +20,17 @@ public abstract class Helper {
     public static final ObservableList<Contact> allContacts = FXCollections.observableArrayList();
     public static final ObservableList<User> allUsers = FXCollections.observableArrayList();
     public static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
+    public static final ObservableList<AppointmentType> allAppointmentTypes = FXCollections.observableArrayList();
     private static User currentUser;
     private static Customer customerToModify;
 
     public static void initializeConstantFields() {
+        ClientScheduleSelectQry.selectAllUsers(allUsers);
+        allUsers.sort((user1, user2) -> user1.getUserID() - user2.getUserID());
+
         ClientScheduleSelectQry.selectAllCountries(allCountries);
         ClientScheduleSelectQry.selectAllDivisions(allDivisions);
         ClientScheduleSelectQry.selectAllContacts(allContacts);
-        ClientScheduleSelectQry.selectAllUsers(allUsers);
-        allUsers.sort((user1, user2) -> user1.getUserID() - user2.getUserID());
 
         for (Division division : allDivisions) {
             int divisionNum = division.getCountryID();
@@ -38,6 +40,10 @@ public abstract class Helper {
                 case 3 -> canadaDivision.add(division);
             }
         }
+        allAppointmentTypes.add(new AppointmentType("Planning Session"));
+        allAppointmentTypes.add(new AppointmentType("De-Briefing"));
+        allAppointmentTypes.add(new AppointmentType("Risk Management"));
+        allAppointmentTypes.add(new AppointmentType("Coaching"));
     }
 
     public static boolean checkForBlankString(String errorMessage, String toCheck) {

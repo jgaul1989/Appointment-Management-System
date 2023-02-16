@@ -8,7 +8,7 @@ public class Appointment {
     private String title;
     private String description;
     private String location;
-    private String type;
+    private AppointmentType type;
     private String contact;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
@@ -21,7 +21,7 @@ public class Appointment {
         this.title = title;
         this.description = description;
         this.location = location;
-        this.type = type;
+        this.type = new AppointmentType(type);
         this.contact = contact;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -62,11 +62,7 @@ public class Appointment {
     }
 
     public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+        return type.getType();
     }
 
     public String getContact() {

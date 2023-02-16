@@ -35,12 +35,14 @@ public class addAppointmentController implements Initializable {
     public TextField titleTF;
     public TextField descriptionTF;
     public TextField locationTF;
+    public ComboBox<AppointmentType> typeCB;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         contactCB.setItems(Helper.allContacts);
         userCB.setItems(Helper.allUsers);
         customerCB.setItems(Helper.allCustomers);
+        typeCB.setItems(Helper.allAppointmentTypes);
     }
 
     public void submitAppointment(ActionEvent actionEvent) throws IOException {
@@ -58,6 +60,30 @@ public class addAppointmentController implements Initializable {
         }
         Contact contact = contactCB.getValue();
         if (Helper.checkForNullValue("Contact field is blank.", contact)) {
+            return;
+        }
+        AppointmentType appointmentType = typeCB.getValue();
+        if (Helper.checkForNullValue("Type field is blank.", appointmentType)) {
+            return;
+        }
+        LocalDate appointmentDate = appointmentDateDP.getValue();
+        if (Helper.checkForNullValue("Date field is blank.", appointmentDate)) {
+            return;
+        }
+        UserAppointmentTimes startTime = startTimeCB.getValue();
+        if (Helper.checkForNullValue("Start time is blank.", startTime)) {
+            return;
+        }
+        UserAppointmentTimes endTime = endTimeCB.getValue();
+        if (Helper.checkForNullValue("End time is blank.", endTime)) {
+            return;
+        }
+        Customer customer = customerCB.getValue();
+        if (Helper.checkForNullValue("Customer ID is blank.", customer)) {
+            return;
+        }
+        User user = userCB.getValue();
+        if (Helper.checkForNullValue("User ID is blank.", user)) {
             return;
         }
         backToMain(actionEvent);
