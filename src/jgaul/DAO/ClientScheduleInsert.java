@@ -57,7 +57,5 @@ public abstract class ClientScheduleInsert {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        System.out.println(start);
-        System.out.println(end);
     }
 }

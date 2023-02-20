@@ -79,6 +79,10 @@ public class Appointment {
         return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(startTime);
     }
 
+    public LocalDateTime getStartDateAsDateTime() {
+        return startTime;
+    }
+
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }

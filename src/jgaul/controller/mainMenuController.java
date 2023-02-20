@@ -20,8 +20,11 @@ import jgaul.utility.Helper;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.WeekFields;
 import java.util.Comparator;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class mainMenuController implements Initializable {
@@ -42,16 +45,44 @@ public class mainMenuController implements Initializable {
     public TableColumn<Appointment, String> contactCol;
     public TableColumn<Appointment, String> locationCol;
     public TableColumn<Appointment, String> typeCol;
-    public TableColumn<Appointment, LocalDateTime> startDateTimeCol;
-    public TableColumn<Appointment, LocalDateTime> endDateTimeCol;
+    public TableColumn<Appointment, String> startDateTimeCol;
+    public TableColumn<Appointment, String> endDateTimeCol;
     public TableColumn<Appointment, Integer> customerAppointmentIDCol;
     public TableColumn<Appointment, Integer> userIDCol;
     public ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
+    public Tab monthlyAppointmentsTab;
+    public TableView<Appointment> monthlyAppointmentsTableView;
+    public TableColumn<Appointment, Integer> monthAppointmentIDCol;
+    public TableColumn<Appointment, String> monthTitleCol;
+    public TableColumn<Appointment, String> monthDescriptionCol;
+    public TableColumn<Appointment, String> monthLocationCol;
+    public TableColumn<Appointment, String> monthContactCol;
+    public TableColumn<Appointment, String> monthTypeCol;
+    public TableColumn<Appointment, String> monthStartDateTimeCol;
+    public TableColumn<Appointment, String> monthEndDateTimeCol;
+    public TableColumn<Appointment, Integer> monthCustomerAppointmentIDCol;
+    public TableColumn<Appointment, Integer> monthUserIDCol;
+    public ObservableList<Appointment> monthlyAppointments = FXCollections.observableArrayList();
+    public Tab weeklyAppointmentsTab;
+    public TableView<Appointment> weeklyAppointmentsTableView;
+    public TableColumn<Appointment, Integer> weekAppointmentIDCol;
+    public TableColumn<Appointment, String> weekTitleCol;
+    public TableColumn<Appointment, String> weekDescriptionCol;
+    public TableColumn<Appointment, String> weekLocationCol;
+    public TableColumn<Appointment, String> weekContactCol;
+    public TableColumn<Appointment, String> weekTypeCol;
+    public TableColumn<Appointment, String> weekStartDateTimeCol;
+    public TableColumn<Appointment, String> weekEndDateTimeCol;
+    public TableColumn<Appointment, Integer> weekCustomerAppointmentIDCol;
+    public TableColumn<Appointment, Integer> weekUserIDCol;
+    public ObservableList<Appointment> weeklyAppointments = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeCustomerTable();
         initializeAppointmentTable();
+        initializeMonthlyAppointments();
+        initializeWeeklyAppointments();
     }
 
     private void initializeCustomerTable() {
@@ -81,6 +112,42 @@ public class mainMenuController implements Initializable {
         endDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
         customerAppointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         userIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
+    }
+
+    private void initializeMonthlyAppointments() {
+        allAppointments.stream()
+                .filter(appointment -> appointment.getStartDateAsDateTime().getMonth() == LocalDateTime.now().getMonth())
+                .forEach(appointment -> monthlyAppointments.add(appointment));
+        monthlyAppointmentsTableView.setItems(monthlyAppointments);
+        monthAppointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
+        monthTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        monthDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        monthLocationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        monthTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        monthContactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        monthStartDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        monthEndDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        monthCustomerAppointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        monthUserIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
+
+    }
+
+    private void initializeWeeklyAppointments() {
+        allAppointments.stream()
+                .filter(appointment -> appointment.getStartDateAsDateTime().toLocalDate().get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) ==
+                        LocalDate.now().get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()))
+                .forEach(appointment -> weeklyAppointments.add(appointment));
+        weeklyAppointmentsTableView.setItems(weeklyAppointments);
+        weekAppointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
+        weekTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        weekDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        weekLocationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        weekTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        weekContactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        weekStartDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        weekEndDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        weekCustomerAppointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        weekUserIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
     public void addSelectedObject(ActionEvent actionEvent) throws IOException {
