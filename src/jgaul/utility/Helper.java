@@ -48,11 +48,7 @@ public abstract class Helper {
 
     public static boolean checkForBlankString(String errorMessage, String toCheck) {
         if (toCheck.isBlank()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("A Text Field is Blank");
-            alert.setHeaderText(errorMessage);
-            alert.setContentText("Fill in all fields to proceed.");
-            alert.show();
+            generateBlankFieldAlert(errorMessage);
             return true;
         }
         return false;
@@ -60,14 +56,26 @@ public abstract class Helper {
 
     public static boolean checkForNullValue(String errorMessage, Object object) {
         if (object == null) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("A Text Field is Blank");
-            alert.setHeaderText(errorMessage);
-            alert.setContentText("Fill in all fields to proceed.");
-            alert.show();
+            generateBlankFieldAlert(errorMessage);
             return true;
         }
         return false;
+    }
+
+    private static void generateBlankFieldAlert(String errorMessage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("A Text Field is Blank");
+        alert.setHeaderText(errorMessage);
+        alert.setContentText("Fill in all fields to proceed.");
+        alert.show();
+    }
+
+    public static void generateTimeConflictAlert(String errorMessage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Conflict with another appointment");
+        alert.setHeaderText(errorMessage);
+        alert.setContentText("Choose a different appointment time.");
+        alert.show();
     }
 
     public static LocalDateTime convertToUserTime(LocalDateTime databaseTime) {

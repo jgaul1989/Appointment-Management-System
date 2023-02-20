@@ -1,6 +1,8 @@
 package jgaul.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class Appointment {
 
@@ -73,16 +75,16 @@ public class Appointment {
         this.contact = contact;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public String getStartTime() {
+        return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(startTime);
     }
 
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
+    public String getEndTime() {
+        return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(endTime);
     }
 
     public void setEndTime(LocalDateTime endTime) {

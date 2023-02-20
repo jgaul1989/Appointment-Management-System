@@ -12,6 +12,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import jgaul.DAO.ClientScheduleInsert;
 import jgaul.DAO.ClientScheduleSelectQry;
 import jgaul.model.*;
 import jgaul.utility.Helper;
@@ -61,14 +62,25 @@ public class addAppointmentController implements Initializable {
         }
         LocalDateTime startDateTime = Helper.convertToDatabaseTime(LocalDateTime.of(selectedDate,startTime.getTime()));
         LocalDateTime endDateTime = Helper.convertToDatabaseTime(LocalDateTime.of(selectedDate, endTime.getTime()));
-        if (ClientScheduleSelectQry.checkAppointments(customer, startDateTime)) {
-            System.out.println("Start time conflict");
+
+        if (ClientScheduleSelectQry.checkAppointmentsConflicts(customer, startDateTime)) {
+            Helper.generateTimeConflictAlert("Start time conflicts with existing appointment.");
             return;
         }
-        if (ClientScheduleSelectQry.checkAppointments(customer, endDateTime)) {
-            System.out.println("End time conflict");
+        if (ClientScheduleSelectQry.checkAppointmentStartTimeConflicts(customer, startDateTime, endDateTime)) {
+            Helper.generateTimeConflictAlert("Start time conflicts with existing appointment.");
             return;
         }
+        if (ClientScheduleSelectQry.checkAppointmentsConflicts(customer, endDateTime)) {
+            Helper.generateTimeConflictAlert("End time conflicts with existing appointment.");
+            return;
+        }
+        if (ClientScheduleSelectQry.checkAppointmentEndTimeConflicts(customer, startDateTime, endDateTime)) {
+            Helper.generateTimeConflictAlert("End time conflicts with existing appointment.");
+            return;
+        }
+        ClientScheduleInsert.insertIntoAppointments(title, description, location, appointmentType,
+                startDateTime, endDateTime, customer , user, contact );
 
         backToMain(actionEvent);
     }

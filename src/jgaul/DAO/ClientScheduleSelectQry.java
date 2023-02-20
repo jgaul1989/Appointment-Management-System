@@ -156,17 +156,54 @@ public abstract class ClientScheduleSelectQry {
             System.out.println(e.getMessage());
         }
     }
-    public static boolean checkAppointments(Customer customer, LocalDateTime appointment) {
+    public static boolean checkAppointmentsConflicts(Customer customer, LocalDateTime appointment) {
         int count = 0;
         String sql = "SELECT * FROM appointments " +
                 "WHERE Customer_ID = ? AND ? BETWEEN Start AND End";
         try {
             PreparedStatement selectAppointments = JDBC.getConnection().prepareStatement(sql);
             selectAppointments.setInt(1, customer.getCustomerID());
-            System.out.println(customer.getCustomerID());
-            System.out.println(appointment);
             selectAppointments.setString(2, Timestamp.valueOf(appointment).toString());
-            System.out.println(Timestamp.valueOf(appointment));
+            ResultSet resultSet = selectAppointments.executeQuery();
+            while(resultSet.next()) {
+                int appointmentID = resultSet.getInt("Appointment_ID");
+                count += 1;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return count > 0;
+    }
+
+    public static boolean checkAppointmentStartTimeConflicts(Customer customer, LocalDateTime startTime, LocalDateTime endTime) {
+        int count = 0;
+        String sql = "SELECT * FROM appointments " +
+                "WHERE Customer_ID = ? AND Start BETWEEN ? AND ?";
+        try {
+            PreparedStatement selectAppointments = JDBC.getConnection().prepareStatement(sql);
+            selectAppointments.setInt(1, customer.getCustomerID());
+            selectAppointments.setString(2, Timestamp.valueOf(startTime).toString());
+            selectAppointments.setString(3, Timestamp.valueOf(endTime).toString());
+            ResultSet resultSet = selectAppointments.executeQuery();
+            while(resultSet.next()) {
+                int appointmentID = resultSet.getInt("Appointment_ID");
+                count += 1;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return count > 0;
+    }
+
+    public static boolean checkAppointmentEndTimeConflicts(Customer customer, LocalDateTime startTime, LocalDateTime endTime) {
+        int count = 0;
+        String sql = "SELECT * FROM appointments " +
+                "WHERE Customer_ID = ? AND End BETWEEN ? AND ?";
+        try {
+            PreparedStatement selectAppointments = JDBC.getConnection().prepareStatement(sql);
+            selectAppointments.setInt(1, customer.getCustomerID());
+            selectAppointments.setString(2, Timestamp.valueOf(startTime).toString());
+            selectAppointments.setString(3, Timestamp.valueOf(endTime).toString());
             ResultSet resultSet = selectAppointments.executeQuery();
             while(resultSet.next()) {
                 int appointmentID = resultSet.getInt("Appointment_ID");

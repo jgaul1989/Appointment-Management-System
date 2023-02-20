@@ -1,6 +1,6 @@
 package jgaul.DAO;
 
-import jgaul.model.Division;
+import jgaul.model.*;
 import jgaul.utility.Helper;
 
 import java.sql.PreparedStatement;
@@ -26,6 +26,33 @@ public abstract class ClientScheduleInsert {
             insertStatement.setTimestamp(7,Timestamp.valueOf(LocalDateTime.now()));
             insertStatement.setString(8, Helper.getCurrentUser().getUsername());
             insertStatement.setInt(9, division.getDivisionID());
+            insertStatement.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void insertIntoAppointments(String title, String description, String location, AppointmentType type, LocalDateTime start,
+                                              LocalDateTime end, Customer customer, User user, Contact contact) {
+
+        String sql = "INSERT into appointments(Title, Description, Location, Type, Start, End, Create_Date, Created_By, " +
+                "Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement insertStatement = JDBC.getConnection().prepareStatement(sql);
+            insertStatement.setString(1, title);
+            insertStatement.setString(2, description);
+            insertStatement.setString(3, location);
+            insertStatement.setString(4, type.getType());
+            insertStatement.setTimestamp(5, Timestamp.valueOf(start));
+            insertStatement.setTimestamp(6, Timestamp.valueOf(end));
+            insertStatement.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+            insertStatement.setString(8, Helper.getCurrentUser().getUsername());
+            insertStatement.setTimestamp(9, Timestamp.valueOf(LocalDateTime.now()));
+            insertStatement.setString(10, Helper.getCurrentUser().getUsername());
+            insertStatement.setInt(11, customer.getCustomerID());
+            insertStatement.setInt(12, user.getUserID());
+            insertStatement.setInt(13, contact.getContactID());
             insertStatement.executeUpdate();
         } catch (Exception e) {
             System.out.println(e.getMessage());
