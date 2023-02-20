@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jgaul.controller.addAppointmentController">
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jgaul.controller.addAppointmentController">
    <children>
-      <GridPane alignment="CENTER" prefHeight="425.0" prefWidth="400.0" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="100.0">
+      <GridPane alignment="CENTER" prefHeight="425.0" prefWidth="400.0" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="100.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="176.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="427.0" minWidth="10.0" prefWidth="224.0" />
@@ -97,7 +97,7 @@
             <ComboBox fx:id="typeCB" layoutX="186.0" layoutY="146.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
       </GridPane>
-      <Label text="Add Appointment" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="50.0">
+      <Label text="Add Appointment" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="50.0">
          <font>
             <Font name="Arial Bold" size="14.0" />
          </font>

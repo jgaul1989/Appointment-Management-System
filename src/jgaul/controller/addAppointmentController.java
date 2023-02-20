@@ -67,7 +67,7 @@ public class addAppointmentController implements Initializable {
             Helper.generateTimeConflictAlert("Start time conflicts with existing appointment.");
             return;
         }
-        if (ClientScheduleSelectQry.checkAppointmentStartTimeConflicts(customer, startDateTime, endDateTime)) {
+        if (ClientScheduleSelectQry.checkAppointmentConflicts(customer, startDateTime, endDateTime, true)) {
             Helper.generateTimeConflictAlert("Start time conflicts with existing appointment.");
             return;
         }
@@ -75,7 +75,7 @@ public class addAppointmentController implements Initializable {
             Helper.generateTimeConflictAlert("End time conflicts with existing appointment.");
             return;
         }
-        if (ClientScheduleSelectQry.checkAppointmentEndTimeConflicts(customer, startDateTime, endDateTime)) {
+        if (ClientScheduleSelectQry.checkAppointmentConflicts(customer, startDateTime, endDateTime, false)) {
             Helper.generateTimeConflictAlert("End time conflicts with existing appointment.");
             return;
         }

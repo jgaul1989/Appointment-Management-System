@@ -44,8 +44,8 @@ public abstract class ClientScheduleInsert {
             insertStatement.setString(2, description);
             insertStatement.setString(3, location);
             insertStatement.setString(4, type.getType());
-            insertStatement.setTimestamp(5, Timestamp.valueOf(start));
-            insertStatement.setTimestamp(6, Timestamp.valueOf(end));
+            insertStatement.setString(5, start.toString());
+            insertStatement.setString(6, end.toString());
             insertStatement.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
             insertStatement.setString(8, Helper.getCurrentUser().getUsername());
             insertStatement.setTimestamp(9, Timestamp.valueOf(LocalDateTime.now()));
@@ -57,5 +57,7 @@ public abstract class ClientScheduleInsert {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        System.out.println(start);
+        System.out.println(end);
     }
 }
