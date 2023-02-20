@@ -23,6 +23,7 @@ public abstract class Helper {
     public static final ObservableList<AppointmentType> allAppointmentTypes = FXCollections.observableArrayList();
     private static User currentUser;
     private static Customer customerToModify;
+    private static Appointment appointmentToModify;
 
     public static void initializeConstantFields() {
         ClientScheduleSelectQry.selectAllUsers(allUsers);
@@ -100,5 +101,11 @@ public abstract class Helper {
 
     public static void setCustomerToModify(Customer customerToModify) {
         Helper.customerToModify = customerToModify;
+    }
+    public static void setAppointmentToModify(Appointment appointmentToModify) {
+        Helper.appointmentToModify = appointmentToModify;
+    }
+    public static Appointment getAppointmentToModify() {
+        return appointmentToModify;
     }
 }

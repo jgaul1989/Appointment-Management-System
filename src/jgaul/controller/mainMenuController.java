@@ -175,6 +175,33 @@ public class mainMenuController implements Initializable {
                 window.setScene(new Scene(root));
                 window.show();
             }
+        } else if (allAppointmentsTab.isSelected()) {
+            if (allAppointmentsTableView.getSelectionModel().getSelectedItem() == null) {
+                return;
+            } else {
+                Helper.setAppointmentToModify(allAppointmentsTableView.getSelectionModel().getSelectedItem());
+                loadModifyAppointment(actionEvent);
+            }
+        } else if (monthlyAppointmentsTab.isSelected()) {
+            if (monthlyAppointmentsTableView.getSelectionModel().getSelectedItem() == null) {
+                return;
+            } else {
+                Helper.setAppointmentToModify(monthlyAppointmentsTableView.getSelectionModel().getSelectedItem());
+                loadModifyAppointment(actionEvent);
+            }
+        } else if (weeklyAppointmentsTab.isSelected()) {
+            if (weeklyAppointmentsTableView.getSelectionModel().getSelectedItem() == null) {
+                return;
+            } else {
+                Helper.setAppointmentToModify(weeklyAppointmentsTableView.getSelectionModel().getSelectedItem());
+                loadModifyAppointment(actionEvent);
+            }
         }
+    }
+    private void loadModifyAppointment(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/modifyAppointment.fxml"));
+        Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+        window.setScene(new Scene(root));
+        window.show();
     }
 }

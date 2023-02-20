@@ -67,8 +67,16 @@ public class Appointment {
         return type.getType();
     }
 
+    public AppointmentType getTypeAsType() {
+        return type;
+    }
+
     public String getContact() {
         return contact.getName();
+    }
+
+    public Contact getContactAsContact() {
+        return contact;
     }
 
     public void setContact(Contact contact) {

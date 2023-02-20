@@ -22,7 +22,7 @@ import java.net.URL;
 import java.time.*;
 import java.util.ResourceBundle;
 
-public class addAppointmentController implements Initializable {
+public class modifyAppointmentController implements Initializable {
 
     public ComboBox<Contact> contactCB;
     public ComboBox<User> userCB;
@@ -38,6 +38,7 @@ public class addAppointmentController implements Initializable {
     public TextField descriptionTF;
     public TextField locationTF;
     public ComboBox<AppointmentType> typeCB;
+    public TextField appointmentIDTF;
     private String title;
     private String description;
     private String location;
@@ -54,6 +55,20 @@ public class addAppointmentController implements Initializable {
         userCB.setItems(Helper.allUsers);
         customerCB.setItems(Helper.allCustomers);
         typeCB.setItems(Helper.allAppointmentTypes);
+        setAllFields();
+    }
+
+    private void setAllFields() {
+        appointmentIDTF.setText(String.valueOf(Helper.getAppointmentToModify().getAppointmentID()));
+        titleTF.setText(Helper.getAppointmentToModify().getTitle());
+        descriptionTF.setText(Helper.getAppointmentToModify().getDescription());
+        locationTF.setText(Helper.getAppointmentToModify().getLocation());
+        contactCB.setValue(Helper.getAppointmentToModify().getContactAsContact());
+        typeCB.setValue(Helper.getAppointmentToModify().getTypeAsType());
+        appointmentDateDP.setValue(Helper.getAppointmentToModify().getStartDateAsDateTime().toLocalDate());
+        dateSelected();
+
+
     }
 
     public void submitAppointment(ActionEvent actionEvent) throws IOException {
