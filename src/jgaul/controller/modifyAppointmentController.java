@@ -67,7 +67,21 @@ public class modifyAppointmentController implements Initializable {
         typeCB.setValue(Helper.getAppointmentToModify().getTypeAsType());
         appointmentDateDP.setValue(Helper.getAppointmentToModify().getStartDateAsDateTime().toLocalDate());
         dateSelected();
-
+        UserAppointmentTimes setStartTime = new UserAppointmentTimes(Helper.getAppointmentToModify().getStartDateAsDateTime().toLocalTime());
+        startTimeCB.setValue(setStartTime);
+        startTimeSelected();
+        UserAppointmentTimes setEndTime = new UserAppointmentTimes(Helper.getAppointmentToModify().getEndDateAsDateTime().toLocalTime());
+        endTimeCB.setValue(setEndTime);
+        for (Customer customer: Helper.allCustomers) {
+            if (customer.getCustomerID() == Helper.getAppointmentToModify().getCustomerID()) {
+                customerCB.setValue(customer);
+            }
+        }
+        for (User user: Helper.allUsers) {
+            if (user.getUserID() == Helper.getAppointmentToModify().getUserID()) {
+                userCB.setValue(user);
+            }
+        }
 
     }
 
@@ -170,7 +184,7 @@ public class modifyAppointmentController implements Initializable {
         startTimeCB.setItems(startTimes);
     }
 
-    public void startTimeSelected(ActionEvent actionEvent) {
+    public void startTimeSelected() {
         if (startTimeCB.getValue() == null) {
             return;
         }

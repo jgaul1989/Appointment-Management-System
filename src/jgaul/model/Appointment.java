@@ -99,6 +99,10 @@ public class Appointment {
         return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(endTime);
     }
 
+    public LocalDateTime getEndDateAsDateTime() {
+        return endTime;
+    }
+
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
