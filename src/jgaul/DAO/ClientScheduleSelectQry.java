@@ -207,6 +207,7 @@ public abstract class ClientScheduleSelectQry {
         int count = 0;
         try {
             PreparedStatement selectAppointments = JDBC.getConnection().prepareStatement(sql);
+            selectAppointments.setInt(1, customerID);
             ResultSet resultSet = selectAppointments.executeQuery();
             while(resultSet.next()) {
                 count += 1;

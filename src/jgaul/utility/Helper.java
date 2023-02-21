@@ -24,6 +24,15 @@ public abstract class Helper {
     private static User currentUser;
     private static Customer customerToModify;
     private static Appointment appointmentToModify;
+    private static boolean isAlertedAboutUpcomingAppointment = false;
+
+    public static boolean isIsAlertedAboutUpcomingAppointment() {
+        return isAlertedAboutUpcomingAppointment;
+    }
+
+    public static void setIsAlertedAboutUpcomingAppointment(boolean isAlertedAboutUpcomingAppointment) {
+        Helper.isAlertedAboutUpcomingAppointment = isAlertedAboutUpcomingAppointment;
+    }
 
     public static void initializeConstantFields() {
         ClientScheduleSelectQry.selectAllUsers(allUsers);

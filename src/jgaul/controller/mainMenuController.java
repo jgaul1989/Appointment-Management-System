@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
-import java.util.Comparator;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -74,7 +74,7 @@ public class mainMenuController implements Initializable {
     public TableColumn<Appointment, Integer> weekCustomerAppointmentIDCol;
     public TableColumn<Appointment, Integer> weekUserIDCol;
     public ObservableList<Appointment> weeklyAppointments = FXCollections.observableArrayList();
-    public Label deleteStatusUpdate;
+    public Label statusUpdate;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -82,6 +82,26 @@ public class mainMenuController implements Initializable {
         initializeAppointmentTable();
         initializeMonthlyAppointments();
         initializeWeeklyAppointments();
+        if (!Helper.isIsAlertedAboutUpcomingAppointment()) {
+            checkForAppointmentIn15Min();
+            Helper.setIsAlertedAboutUpcomingAppointment(true);
+        }
+    }
+    private void checkForAppointmentIn15Min() {
+        for (Appointment appointment: allAppointments) {
+            LocalDateTime timeNow = LocalDateTime.now();
+            if (timeNow.isBefore(appointment.getStartDateAsDateTime())) {
+                long timeDifference = ChronoUnit.MINUTES.between(timeNow, appointment.getStartDateAsDateTime());
+                if (timeDifference >= 0 && timeDifference <= 15) {
+                    String alert = String.format("Appointment ID#%d starts in less than 15 minutes at %s.",
+                            appointment.getAppointmentID(), appointment.getStartTime());
+                    statusUpdate.setText(alert);
+                }
+            }
+            if (statusUpdate.getText().isBlank()) {
+                statusUpdate.setText("There are no upcoming appointments.");
+            }
+        }
     }
 
     private void initializeCustomerTable() {
@@ -128,7 +148,6 @@ public class mainMenuController implements Initializable {
         monthEndDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
         monthCustomerAppointmentIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         monthUserIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
-
     }
 
     private void initializeWeeklyAppointments() {
@@ -152,12 +171,12 @@ public class mainMenuController implements Initializable {
     public void addSelectedObject(ActionEvent actionEvent) throws IOException {
         if (customerTab.isSelected()) {
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/addCustomer.fxml"));
-            Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));
             window.show();
         } else {
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/addAppointment.fxml"));
-            Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+            Stage window = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));
             window.show();
         }
@@ -170,7 +189,7 @@ public class mainMenuController implements Initializable {
             } else {
                 Helper.setCustomerToModify(customerTableView.getSelectionModel().getSelectedItem());
                 Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/modifyCustomer.fxml"));
-                Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+                Stage window = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
                 window.setScene(new Scene(root));
                 window.show();
             }
@@ -197,11 +216,20 @@ public class mainMenuController implements Initializable {
             }
         }
     }
+
     private void loadModifyAppointment(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/modifyAppointment.fxml"));
-        Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+        Stage window = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         window.setScene(new Scene(root));
         window.show();
+    }
+
+    private void removeAppointment(Appointment appointment) {
+        ClientScheduleDelete.deleteAppointment(appointment.getAppointmentID());
+        statusUpdate.setText("Successfully deleted Appointment ID " + appointment.getAppointmentID());
+        allAppointments.remove(appointment);
+        monthlyAppointments.remove(appointment);
+        weeklyAppointments.remove(appointment);
     }
 
     public void deleteSelectedObject(ActionEvent actionEvent) {
@@ -211,10 +239,11 @@ public class mainMenuController implements Initializable {
             } else {
                 Customer customer = customerTableView.getSelectionModel().getSelectedItem();
                 if (ClientScheduleSelectQry.checkCustomerAppointments(customer.getCustomerID())) {
-                    deleteStatusUpdate.setText("Delete failed. Customer has scheduled appointments.");
+                    statusUpdate.setText("Delete failed. Customer has scheduled appointments.");
                 } else {
                     ClientScheduleDelete.deleteCustomer(customer.getCustomerID());
-                    deleteStatusUpdate.setText("Successfully deleted Customer ID # " + customer.getCustomerID());
+                    statusUpdate.setText("Successfully deleted Customer ID # " + customer.getCustomerID());
+                    Helper.allCustomers.remove(customer);
                 }
             }
         } else if (allAppointmentsTab.isSelected()) {
@@ -222,24 +251,21 @@ public class mainMenuController implements Initializable {
                 return;
             } else {
                 Appointment appointment = allAppointmentsTableView.getSelectionModel().getSelectedItem();
-                ClientScheduleDelete.deleteAppointment(appointment.getAppointmentID());
-                deleteStatusUpdate.setText("Successfully deleted Appointment ID " + appointment.getAppointmentID());
+                removeAppointment(appointment);
             }
         } else if (monthlyAppointmentsTab.isSelected()) {
             if (monthlyAppointmentsTableView.getSelectionModel().getSelectedItem() == null) {
                 return;
             } else {
                 Appointment appointment = monthlyAppointmentsTableView.getSelectionModel().getSelectedItem();
-                ClientScheduleDelete.deleteAppointment(appointment.getAppointmentID());
-                deleteStatusUpdate.setText("Successfully deleted Appointment ID " + appointment.getAppointmentID());
+                removeAppointment(appointment);
             }
         } else if (weeklyAppointmentsTab.isSelected()) {
             if (weeklyAppointmentsTableView.getSelectionModel().getSelectedItem() == null) {
                 return;
             } else {
                 Appointment appointment = weeklyAppointmentsTableView.getSelectionModel().getSelectedItem();
-                ClientScheduleDelete.deleteAppointment(appointment.getAppointmentID());
-                deleteStatusUpdate.setText("Successfully deleted Appointment ID " + appointment.getAppointmentID());
+                removeAppointment(appointment);
             }
         }
     }
