@@ -1,5 +1,6 @@
 package jgaul.DAO;
 
+import jgaul.model.Appointment;
 import jgaul.model.Division;
 import jgaul.utility.Helper;
 
@@ -25,6 +26,31 @@ public abstract class ClientScheduleUpdate {
             updateStatement.setString(6, Helper.getCurrentUser().getUsername());
             updateStatement.setInt(7, division.getDivisionID());
             updateStatement.setInt(8, customerId);
+            updateStatement.executeUpdate();
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void modifyAppointment(Appointment appointmentToModify) {
+
+        String sql ="Update appointments SET Title = ?, Description = ?, Location = ?, " +
+                "Type = ?, Start = ?, End = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? " +
+                "WHERE Appointment_ID = ?";
+        try{
+            PreparedStatement updateStatement = JDBC.getConnection().prepareStatement(sql);
+            updateStatement.setString(1, appointmentToModify.getTitle());
+            updateStatement.setString(2, appointmentToModify.getDescription());
+            updateStatement.setString(3, appointmentToModify.getLocation());
+            updateStatement.setString(4, appointmentToModify.getType());
+            updateStatement.setString(5, appointmentToModify.getStartDateAsDateTime().toString());
+            updateStatement.setString(6, appointmentToModify.getEndDateAsDateTime().toString());
+            updateStatement.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));;
+            updateStatement.setString(8, Helper.getCurrentUser().getUsername());
+            updateStatement.setInt(9, appointmentToModify.getCustomerID());
+            updateStatement.setInt(10, appointmentToModify.getUserID());
+            updateStatement.setInt(11, appointmentToModify.getContactAsContact().getContactID());
+            updateStatement.setInt(12, appointmentToModify.getAppointmentID());
             updateStatement.executeUpdate();
         } catch(Exception e) {
             System.out.println(e.getMessage());

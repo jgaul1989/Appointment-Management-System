@@ -63,19 +63,19 @@ public class addAppointmentController implements Initializable {
         LocalDateTime startDateTime = Helper.convertToDatabaseTime(LocalDateTime.of(selectedDate,startTime.getTime()));
         LocalDateTime endDateTime = Helper.convertToDatabaseTime(LocalDateTime.of(selectedDate, endTime.getTime()));
 
-        if (ClientScheduleSelectQry.checkAppointmentsConflicts(customer, startDateTime)) {
+        if (ClientScheduleSelectQry.checkAppointmentsConflicts(customer, startDateTime, -1)) {
             Helper.generateTimeConflictAlert("Start time conflicts with existing appointment.");
             return;
         }
-        if (ClientScheduleSelectQry.checkAppointmentConflicts(customer, startDateTime, endDateTime, true)) {
+        if (ClientScheduleSelectQry.checkAppointmentConflicts(customer, startDateTime, endDateTime, true, -1)) {
             Helper.generateTimeConflictAlert("Start time conflicts with existing appointment.");
             return;
         }
-        if (ClientScheduleSelectQry.checkAppointmentsConflicts(customer, endDateTime)) {
+        if (ClientScheduleSelectQry.checkAppointmentsConflicts(customer, endDateTime, -1)) {
             Helper.generateTimeConflictAlert("End time conflicts with existing appointment.");
             return;
         }
-        if (ClientScheduleSelectQry.checkAppointmentConflicts(customer, startDateTime, endDateTime, false)) {
+        if (ClientScheduleSelectQry.checkAppointmentConflicts(customer, startDateTime, endDateTime, false, -1)) {
             Helper.generateTimeConflictAlert("End time conflicts with existing appointment.");
             return;
         }

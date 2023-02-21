@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import jgaul.DAO.ClientScheduleInsert;
 import jgaul.DAO.ClientScheduleSelectQry;
+import jgaul.DAO.ClientScheduleUpdate;
 import jgaul.model.*;
 import jgaul.utility.Helper;
 
@@ -39,6 +40,7 @@ public class modifyAppointmentController implements Initializable {
     public TextField locationTF;
     public ComboBox<AppointmentType> typeCB;
     public TextField appointmentIDTF;
+    private int appointmentID;
     private String title;
     private String description;
     private String location;
@@ -91,30 +93,37 @@ public class modifyAppointmentController implements Initializable {
         }
         LocalDateTime startDateTime = Helper.convertToDatabaseTime(LocalDateTime.of(selectedDate,startTime.getTime()));
         LocalDateTime endDateTime = Helper.convertToDatabaseTime(LocalDateTime.of(selectedDate, endTime.getTime()));
+        if (endDateTime.isBefore(startDateTime)) {
+            Helper.generateTimeConflictAlert("End time is before start time.");
+            return;
+        }
 
-        if (ClientScheduleSelectQry.checkAppointmentsConflicts(customer, startDateTime)) {
+        if (ClientScheduleSelectQry.checkAppointmentsConflicts(customer, startDateTime, appointmentID)) {
             Helper.generateTimeConflictAlert("Start time conflicts with existing appointment.");
             return;
         }
-        if (ClientScheduleSelectQry.checkAppointmentConflicts(customer, startDateTime, endDateTime, true)) {
+        if (ClientScheduleSelectQry.checkAppointmentConflicts(customer, startDateTime, endDateTime, true, appointmentID)) {
             Helper.generateTimeConflictAlert("Start time conflicts with existing appointment.");
             return;
         }
-        if (ClientScheduleSelectQry.checkAppointmentsConflicts(customer, endDateTime)) {
+        if (ClientScheduleSelectQry.checkAppointmentsConflicts(customer, endDateTime, appointmentID)) {
             Helper.generateTimeConflictAlert("End time conflicts with existing appointment.");
             return;
         }
-        if (ClientScheduleSelectQry.checkAppointmentConflicts(customer, startDateTime, endDateTime, false)) {
+        if (ClientScheduleSelectQry.checkAppointmentConflicts(customer, startDateTime, endDateTime, false, appointmentID)) {
             Helper.generateTimeConflictAlert("End time conflicts with existing appointment.");
             return;
         }
-        ClientScheduleInsert.insertIntoAppointments(title, description, location, appointmentType,
-                startDateTime, endDateTime, customer , user, contact );
+        Appointment modifiedAppointment = new Appointment(appointmentID,title, description, location,
+                appointmentType.getType(), contact.getName(), startDateTime, endDateTime,
+                customer.getCustomerID(), user.getUserID(),contact.getContactID());
+        ClientScheduleUpdate.modifyAppointment(modifiedAppointment);
 
         backToMain(actionEvent);
     }
 
     private boolean checkAllValues() {
+        appointmentID = Integer.parseInt(appointmentIDTF.getText());
         title = titleTF.getText();
         if (Helper.checkForBlankString("Title field is blank.", title)) {
             return false;

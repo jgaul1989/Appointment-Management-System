@@ -157,17 +157,17 @@ public abstract class ClientScheduleSelectQry {
             System.out.println(e.getMessage());
         }
     }
-    public static boolean checkAppointmentsConflicts(Customer customer, LocalDateTime appointment) {
+    public static boolean checkAppointmentsConflicts(Customer customer, LocalDateTime appointment, int appointmentID) {
         int count = 0;
         String sql = "SELECT * FROM appointments " +
-                "WHERE Customer_ID = ? AND ? BETWEEN Start AND End";
+                "WHERE Not Appointment_ID = ? AND Customer_ID = ? AND ? BETWEEN Start AND End";
         try {
             PreparedStatement selectAppointments = JDBC.getConnection().prepareStatement(sql);
-            selectAppointments.setInt(1, customer.getCustomerID());
-            selectAppointments.setString(2, Timestamp.valueOf(appointment).toString());
+            selectAppointments.setInt(1, appointmentID);
+            selectAppointments.setInt(2, customer.getCustomerID());
+            selectAppointments.setString(3, Timestamp.valueOf(appointment).toString());
             ResultSet resultSet = selectAppointments.executeQuery();
             while(resultSet.next()) {
-                int appointmentID = resultSet.getInt("Appointment_ID");
                 count += 1;
             }
         } catch (SQLException e) {
@@ -176,25 +176,25 @@ public abstract class ClientScheduleSelectQry {
         return count > 0;
     }
 
-    public static boolean checkAppointmentConflicts(Customer customer, LocalDateTime startTime, LocalDateTime endTime, boolean checkStart) {
+    public static boolean checkAppointmentConflicts(Customer customer, LocalDateTime startTime, LocalDateTime endTime, boolean checkStart, int appointmentID) {
         int count = 0;
         String sql = "";
         if (checkStart) {
             sql = "SELECT * FROM appointments " +
-                    "WHERE Customer_ID = ? AND Start BETWEEN ? AND ?";
+                    "WHERE NOT Appointment_ID = ? AND Customer_ID = ? AND Start BETWEEN ? AND ?";
         } else {
             sql = "SELECT * FROM appointments " +
-                    "WHERE Customer_ID = ? AND End BETWEEN ? AND ?";
+                    "WHERE NOT Appointment_ID = ? AND Customer_ID = ? AND End BETWEEN ? AND ?";
         }
 
         try {
             PreparedStatement selectAppointments = JDBC.getConnection().prepareStatement(sql);
-            selectAppointments.setInt(1, customer.getCustomerID());
-            selectAppointments.setString(2, Timestamp.valueOf(startTime).toString());
-            selectAppointments.setString(3, Timestamp.valueOf(endTime).toString());
+            selectAppointments.setInt(1, appointmentID);
+            selectAppointments.setInt(2, customer.getCustomerID());
+            selectAppointments.setString(3, Timestamp.valueOf(startTime).toString());
+            selectAppointments.setString(4, Timestamp.valueOf(endTime).toString());
             ResultSet resultSet = selectAppointments.executeQuery();
             while(resultSet.next()) {
-                int appointmentID = resultSet.getInt("Appointment_ID");
                 count += 1;
             }
         } catch (SQLException e) {
