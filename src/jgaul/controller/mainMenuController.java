@@ -7,12 +7,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import jgaul.DAO.ClientScheduleDelete;
 import jgaul.DAO.ClientScheduleSelectQry;
 import jgaul.model.Appointment;
 import jgaul.model.Customer;
@@ -76,6 +74,7 @@ public class mainMenuController implements Initializable {
     public TableColumn<Appointment, Integer> weekCustomerAppointmentIDCol;
     public TableColumn<Appointment, Integer> weekUserIDCol;
     public ObservableList<Appointment> weeklyAppointments = FXCollections.observableArrayList();
+    public Label deleteStatusUpdate;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -203,5 +202,45 @@ public class mainMenuController implements Initializable {
         Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
         window.setScene(new Scene(root));
         window.show();
+    }
+
+    public void deleteSelectedObject(ActionEvent actionEvent) {
+        if (customerTab.isSelected()) {
+            if (customerTableView.getSelectionModel().getSelectedItem() == null) {
+                return;
+            } else {
+                Customer customer = customerTableView.getSelectionModel().getSelectedItem();
+                if (ClientScheduleSelectQry.checkCustomerAppointments(customer.getCustomerID())) {
+                    deleteStatusUpdate.setText("Delete failed. Customer has scheduled appointments.");
+                } else {
+                    ClientScheduleDelete.deleteCustomer(customer.getCustomerID());
+                    deleteStatusUpdate.setText("Successfully deleted Customer ID # " + customer.getCustomerID());
+                }
+            }
+        } else if (allAppointmentsTab.isSelected()) {
+            if (allAppointmentsTableView.getSelectionModel().getSelectedItem() == null) {
+                return;
+            } else {
+                Appointment appointment = allAppointmentsTableView.getSelectionModel().getSelectedItem();
+                ClientScheduleDelete.deleteAppointment(appointment.getAppointmentID());
+                deleteStatusUpdate.setText("Successfully deleted Appointment ID " + appointment.getAppointmentID());
+            }
+        } else if (monthlyAppointmentsTab.isSelected()) {
+            if (monthlyAppointmentsTableView.getSelectionModel().getSelectedItem() == null) {
+                return;
+            } else {
+                Appointment appointment = monthlyAppointmentsTableView.getSelectionModel().getSelectedItem();
+                ClientScheduleDelete.deleteAppointment(appointment.getAppointmentID());
+                deleteStatusUpdate.setText("Successfully deleted Appointment ID " + appointment.getAppointmentID());
+            }
+        } else if (weeklyAppointmentsTab.isSelected()) {
+            if (weeklyAppointmentsTableView.getSelectionModel().getSelectedItem() == null) {
+                return;
+            } else {
+                Appointment appointment = weeklyAppointmentsTableView.getSelectionModel().getSelectedItem();
+                ClientScheduleDelete.deleteAppointment(appointment.getAppointmentID());
+                deleteStatusUpdate.setText("Successfully deleted Appointment ID " + appointment.getAppointmentID());
+            }
+        }
     }
 }

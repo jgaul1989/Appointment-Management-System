@@ -186,13 +186,27 @@ public abstract class ClientScheduleSelectQry {
             sql = "SELECT * FROM appointments " +
                     "WHERE NOT Appointment_ID = ? AND Customer_ID = ? AND End BETWEEN ? AND ?";
         }
-
         try {
             PreparedStatement selectAppointments = JDBC.getConnection().prepareStatement(sql);
             selectAppointments.setInt(1, appointmentID);
             selectAppointments.setInt(2, customer.getCustomerID());
             selectAppointments.setString(3, Timestamp.valueOf(startTime).toString());
             selectAppointments.setString(4, Timestamp.valueOf(endTime).toString());
+            ResultSet resultSet = selectAppointments.executeQuery();
+            while(resultSet.next()) {
+                count += 1;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return count > 0;
+    }
+
+    public static boolean checkCustomerAppointments(int customerID) {
+        String sql = "SELECT * FROM appointments WHERE Customer_ID = ?";
+        int count = 0;
+        try {
+            PreparedStatement selectAppointments = JDBC.getConnection().prepareStatement(sql);
             ResultSet resultSet = selectAppointments.executeQuery();
             while(resultSet.next()) {
                 count += 1;
