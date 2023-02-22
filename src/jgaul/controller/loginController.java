@@ -13,8 +13,9 @@ import jgaul.DAO.ClientScheduleSelectQry;
 import jgaul.model.User;
 import jgaul.utility.Helper;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -50,15 +51,27 @@ public class loginController implements Initializable {
         currentUser = new User(username, password);
 
         if (ClientScheduleSelectQry.isValidUser(currentUser)) {
+            generateLog(true);
             Helper.setCurrentUser(currentUser);
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/mainMenu.fxml"));
             Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));
             window.show();
         } else {
+            generateLog(false);
             setLoginErrorMessage();
         }
     }
+
+    private void generateLog(boolean isSuccessfulLogin) {
+        File file = new File("login_activity.txt");
+        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(file, true)))) {
+            writer.printf("Login attempt at %s. Successful login = %s\n", LocalDateTime.now(), isSuccessfulLogin);
+        } catch (IOException e) {
+            System.out.printf("An exception occurred %s", e.getMessage());
+        }
+    }
+
     private void setFrenchLanguage(){
         usernameLabel.setText(frenchLanguageTranslation.getString("Username"));
         passwordLabel.setText(frenchLanguageTranslation.getString("Password"));
