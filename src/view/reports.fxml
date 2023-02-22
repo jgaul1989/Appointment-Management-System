@@ -21,7 +21,7 @@
             <TableColumn fx:id="customerCol" prefWidth="79.0" text="Customer ID" />
         </columns>
       </TableView>
-      <Label fx:id="appointmentType1" text="Contact" AnchorPane.leftAnchor="440.0" AnchorPane.topAnchor="425.0">
+      <Label fx:id="contactLabel" text="Contact" AnchorPane.leftAnchor="440.0" AnchorPane.topAnchor="425.0">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>
@@ -60,8 +60,8 @@
                </font>
             </Label>
             <ComboBox fx:id="customerAppointmentTypeCB" layoutX="183.0" layoutY="312.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Button layoutX="10.0" layoutY="385.0" mnemonicParsing="false" onAction="#calculateCustomerAppt" text="Calculate" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
-            <ComboBox fx:id="typeCB" prefWidth="150.0" GridPane.columnIndex="1" />
+            <Button layoutX="10.0" layoutY="385.0" mnemonicParsing="false" onAction="#calculateCustomerApt" text="Calculate" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+            <ComboBox fx:id="appointmentTypeCB" prefWidth="150.0" GridPane.columnIndex="1" />
             <Label layoutX="10.0" layoutY="217.0" text="Number of Appointments:" GridPane.rowIndex="3">
                <font>
                   <Font name="Arial Bold" size="12.0" />
@@ -73,8 +73,8 @@
                </font>
             </Label>
             <ComboBox fx:id="monthCB" layoutX="186.0" layoutY="146.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button layoutX="358.0" layoutY="410.0" mnemonicParsing="false" onAction="#calculateTypeMonth" text="Calculate" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
-            <Label fx:id="numAppointmentsLabel" layoutX="10.0" layoutY="169.0" textFill="#ee0404" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Button layoutX="358.0" layoutY="410.0" mnemonicParsing="false" onAction="#calculateAppointmentTypeByMonth" text="Calculate" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
+            <Label fx:id="numAppointmentsByMonthAndTypeLabel" layoutX="10.0" layoutY="169.0" textFill="#ee0404" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <font>
                   <Font name="Arial Bold" size="14.0" />
                </font>
@@ -84,7 +84,7 @@
                   <Font name="Arial Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="numCustomerApptByType" layoutX="298.0" layoutY="169.0" textFill="#ee0404" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8">
+            <Label fx:id="numCustomerAptByType" layoutX="298.0" layoutY="169.0" textFill="#ee0404" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8">
                <font>
                   <Font name="Arial Bold" size="14.0" />
                </font>

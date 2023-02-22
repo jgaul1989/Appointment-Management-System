@@ -217,5 +217,40 @@ public abstract class ClientScheduleSelectQry {
         }
         return count > 0;
     }
+    public static int selectAptByTypeAndMonth(String month, String appointmentType) {
+        String sql = "SELECT COUNT(*) AS NUM FROM appointments " +
+                "WHERE Type = ? AND monthname(START) = ?";
+        int count = 0;
+        try {
+            PreparedStatement selectAppointments = JDBC.getConnection().prepareStatement(sql);
+            selectAppointments.setString(1, appointmentType);
+            selectAppointments.setString(2, month);
+            ResultSet resultSet = selectAppointments.executeQuery();
+            while(resultSet.next()) {
+                count = resultSet.getInt("NUM");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return count;
+    }
+
+    public static int selectCustomerAptByType(int customerID, String appointmentType) {
+        String sql = "SELECT COUNT(*) AS NUM FROM appointments " +
+                "WHERE Type = ? AND Customer_ID = ?";
+        int count = 0;
+        try {
+            PreparedStatement selectAppointments = JDBC.getConnection().prepareStatement(sql);
+            selectAppointments.setString(1, appointmentType);
+            selectAppointments.setInt(2, customerID);
+            ResultSet resultSet = selectAppointments.executeQuery();
+            while(resultSet.next()) {
+                count = resultSet.getInt("NUM");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return count;
+    }
 
 }
