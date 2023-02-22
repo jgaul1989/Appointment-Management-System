@@ -8,17 +8,17 @@
    <children>
       <ComboBox fx:id="contactCB" prefWidth="150.0" AnchorPane.leftAnchor="510.0" AnchorPane.topAnchor="420.0" />
       <Button mnemonicParsing="false" onAction="#generateSchedule" text="Generate Schedule" AnchorPane.leftAnchor="700.0" AnchorPane.topAnchor="420.0" />
-      <Separator prefWidth="415.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="315.0" />
-      <Separator orientation="VERTICAL" prefHeight="525.0" AnchorPane.leftAnchor="425.0" AnchorPane.topAnchor="75.0" />
-      <TableView fx:id="appointmentTableView" prefHeight="300.0" prefWidth="530.0" AnchorPane.leftAnchor="440.0" AnchorPane.topAnchor="100.0">
+      <Separator prefWidth="375.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="315.0" />
+      <Separator orientation="VERTICAL" prefHeight="525.0" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="75.0" />
+      <TableView fx:id="appointmentTableView" prefHeight="300.0" prefWidth="575.0" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="100.0">
         <columns>
-          <TableColumn fx:id="appointmentIDCol" prefWidth="105.0" text="Appointment ID" />
-          <TableColumn fx:id="titleCol" prefWidth="62.0" text="Title" />
-            <TableColumn fx:id="typeCol" prefWidth="58.0" text="Type" />
-            <TableColumn fx:id="descriptionCol" prefWidth="88.0" text="Description" />
-            <TableColumn fx:id="startCol" prefWidth="62.0" text="Start" />
-            <TableColumn fx:id="endCol" prefWidth="75.0" text="End" />
-            <TableColumn fx:id="customerCol" prefWidth="79.0" text="Customer ID" />
+          <TableColumn fx:id="appointmentIDCol" prefWidth="57.0" text="Apt ID" />
+          <TableColumn fx:id="titleCol" prefWidth="71.0" text="Title" />
+            <TableColumn fx:id="typeCol" prefWidth="69.0" text="Type" />
+            <TableColumn fx:id="descriptionCol" prefWidth="92.0" text="Description" />
+            <TableColumn fx:id="startCol" prefWidth="107.0" text="Start" />
+            <TableColumn fx:id="endCol" prefWidth="103.0" text="End" />
+            <TableColumn fx:id="customerCol" prefWidth="75.0" text="Customer ID" />
         </columns>
       </TableView>
       <Label fx:id="contactLabel" text="Contact" AnchorPane.leftAnchor="440.0" AnchorPane.topAnchor="425.0">
@@ -91,7 +91,7 @@
             </Label>
          </children>
       </GridPane>
-      <Label text="Reports" AnchorPane.leftAnchor="405.0" AnchorPane.topAnchor="50.0">
+      <Label text="Reports" AnchorPane.leftAnchor="355.0" AnchorPane.topAnchor="40.0">
          <font>
             <Font name="Arial Bold" size="14.0" />
          </font>

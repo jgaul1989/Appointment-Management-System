@@ -25,6 +25,7 @@ public abstract class Helper {
     private static Customer customerToModify;
     private static Appointment appointmentToModify;
     private static boolean isAlertedAboutUpcomingAppointment = false;
+    public static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
 
     public static boolean isIsAlertedAboutUpcomingAppointment() {
         return isAlertedAboutUpcomingAppointment;
