@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class UserAppointmentTimes {
 
-    private LocalTime time;
+    private final LocalTime time;
 
     public UserAppointmentTimes(LocalTime time) {
         this.time = time;

@@ -85,7 +85,6 @@ public class addAppointmentController implements Initializable {
         }
         ClientScheduleInsert.insertIntoAppointments(title, description, location, appointmentType,
                 startDateTime, endDateTime, customer , user, contact );
-
         backToMain(actionEvent);
     }
 
@@ -127,10 +126,7 @@ public class addAppointmentController implements Initializable {
             return false;
         }
         user = userCB.getValue();
-        if (Helper.checkForNullValue("User ID is blank.", user)) {
-            return false;
-        }
-        return true;
+        return !Helper.checkForNullValue("User ID is blank.", user);
     }
 
     public void backToMain(ActionEvent actionEvent) throws IOException {
@@ -159,7 +155,7 @@ public class addAppointmentController implements Initializable {
         startTimeCB.setItems(startTimes);
     }
 
-    public void startTimeSelected(ActionEvent actionEvent) {
+    public void startTimeSelected() {
         if (startTimeCB.getValue() == null) {
             return;
         }

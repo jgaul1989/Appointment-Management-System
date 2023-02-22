@@ -2,7 +2,7 @@ package jgaul.model;
 
 public class AppointmentType {
 
-    private String type;
+    private final String type;
 
     public AppointmentType(String type) {
         this.type = type;

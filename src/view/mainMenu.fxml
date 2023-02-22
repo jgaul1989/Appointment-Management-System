@@ -105,6 +105,6 @@
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="reports" mnemonicParsing="false" onAction="#viewReports" text="View Reports" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="525.0" />
+      <Button mnemonicParsing="false" onAction="#viewReports" text="View Reports" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="525.0" />
    </children>
 </AnchorPane>

@@ -15,7 +15,6 @@ public class Division {
         return name;
     }
 
-
     public int getCountryID() {
         return countryID;
     }

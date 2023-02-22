@@ -12,7 +12,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import jgaul.DAO.ClientScheduleInsert;
 import jgaul.DAO.ClientScheduleSelectQry;
 import jgaul.DAO.ClientScheduleUpdate;
 import jgaul.model.*;
@@ -84,7 +83,6 @@ public class modifyAppointmentController implements Initializable {
                 userCB.setValue(user);
             }
         }
-
     }
 
     public void submitAppointment(ActionEvent actionEvent) throws IOException {
@@ -97,7 +95,6 @@ public class modifyAppointmentController implements Initializable {
             Helper.generateTimeConflictAlert("End time is before start time.");
             return;
         }
-
         if (ClientScheduleSelectQry.checkAppointmentsConflicts(customer, startDateTime, appointmentID)) {
             Helper.generateTimeConflictAlert("Start time conflicts with existing appointment.");
             return;
@@ -118,7 +115,6 @@ public class modifyAppointmentController implements Initializable {
                 appointmentType.getType(), contact.getName(), startDateTime, endDateTime,
                 customer.getCustomerID(), user.getUserID(),contact.getContactID());
         ClientScheduleUpdate.modifyAppointment(modifiedAppointment);
-
         backToMain(actionEvent);
     }
 
@@ -161,10 +157,7 @@ public class modifyAppointmentController implements Initializable {
             return false;
         }
         user = userCB.getValue();
-        if (Helper.checkForNullValue("User ID is blank.", user)) {
-            return false;
-        }
-        return true;
+        return !Helper.checkForNullValue("User ID is blank.", user);
     }
 
     public void backToMain(ActionEvent actionEvent) throws IOException {
