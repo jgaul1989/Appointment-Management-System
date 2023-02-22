@@ -26,6 +26,7 @@ public class loginController implements Initializable {
     public TextField passwordTextField;
     public Label passwordLabel;
     public Label loginErrorMessage;
+    public Label locationLabel;
     private ResourceBundle frenchLanguageTranslation;
     public Label zoneIDLabel;
     private User currentUser;
@@ -37,7 +38,7 @@ public class loginController implements Initializable {
             if (Locale.getDefault().getLanguage().equals("fr")) {
                 setFrenchLanguage();
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         zoneIDLabel.setText(ZoneId.systemDefault().getId());
@@ -62,6 +63,7 @@ public class loginController implements Initializable {
         usernameLabel.setText(frenchLanguageTranslation.getString("Username"));
         passwordLabel.setText(frenchLanguageTranslation.getString("Password"));
         loginButton.setText(frenchLanguageTranslation.getString("Login"));
+        locationLabel.setText(frenchLanguageTranslation.getString("Location"));
     }
 
     private void setLoginErrorMessage() {

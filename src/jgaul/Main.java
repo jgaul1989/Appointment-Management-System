@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 import jgaul.DAO.JDBC;
 import jgaul.utility.Helper;
 
+import java.util.Locale;
+
 public class Main extends Application {
 
     @Override
@@ -18,7 +20,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        //Locale.setDefault(new Locale("fr"));
+        // Locale.setDefault(new Locale("fr"));
         JDBC.makeConnection();
         Helper.initializeConstantFields();
         launch(args);

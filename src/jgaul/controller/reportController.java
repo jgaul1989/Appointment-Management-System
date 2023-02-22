@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 public class reportController implements Initializable {
     public ComboBox<Contact> contactCB;
     public ComboBox<AppointmentType> appointmentTypeCB;
-    public ObservableList<String> monthsList = FXCollections.observableArrayList();
+    public final ObservableList<String> monthsList = FXCollections.observableArrayList();
     public ComboBox<String> monthCB;
     public Label numAppointmentsByMonthAndTypeLabel;
     public ComboBox<Customer> customerCB;
@@ -67,7 +67,7 @@ public class reportController implements Initializable {
         monthCB.setItems(monthsList);
     }
 
-    public void calculateCustomerApt(ActionEvent actionEvent) {
+    public void calculateCustomerApt() {
         if (customerCB.getValue() != null && customerAppointmentTypeCB.getValue() != null) {
             int customerID = customerCB.getValue().getCustomerID();
             String appointmentType = customerAppointmentTypeCB.getValue().getType();
@@ -76,7 +76,7 @@ public class reportController implements Initializable {
         }
     }
 
-    public void calculateAppointmentTypeByMonth(ActionEvent actionEvent) {
+    public void calculateAppointmentTypeByMonth() {
         if (monthCB.getValue() != null && appointmentTypeCB.getValue() != null) {
             String month = monthCB.getValue();
             String appointmentType = appointmentTypeCB.getValue().getType();
@@ -85,7 +85,7 @@ public class reportController implements Initializable {
         }
     }
 
-    public void generateSchedule(ActionEvent actionEvent) {
+    public void generateSchedule() {
         if (contactCB.getValue() != null) {
             Contact contact = contactCB.getValue();
             contactAppointments.clear();

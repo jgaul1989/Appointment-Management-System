@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
+import java.util.Comparator;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -107,7 +108,7 @@ public class mainMenuController implements Initializable {
     private void initializeCustomerTable() {
         Helper.allCustomers.clear();
         ClientScheduleSelectQry.selectAllCustomers(Helper.allCustomers);
-        Helper.allCustomers.sort((customer1, customer2) -> customer1.getCustomerID() - customer2.getCustomerID());
+        Helper.allCustomers.sort(Comparator.comparingInt(Customer::getCustomerID));
         customerTableView.setItems(Helper.allCustomers);
         customerTableIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
@@ -184,9 +185,7 @@ public class mainMenuController implements Initializable {
 
     public void modifySelectedObject(ActionEvent actionEvent) throws IOException {
         if (customerTab.isSelected()) {
-            if (customerTableView.getSelectionModel().getSelectedItem() == null) {
-                return;
-            } else {
+            if (customerTableView.getSelectionModel().getSelectedItem() != null) {
                 Helper.setCustomerToModify(customerTableView.getSelectionModel().getSelectedItem());
                 Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/modifyCustomer.fxml"));
                 Stage window = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -194,23 +193,17 @@ public class mainMenuController implements Initializable {
                 window.show();
             }
         } else if (allAppointmentsTab.isSelected()) {
-            if (allAppointmentsTableView.getSelectionModel().getSelectedItem() == null) {
-                return;
-            } else {
+            if (allAppointmentsTableView.getSelectionModel().getSelectedItem() != null) {
                 Helper.setAppointmentToModify(allAppointmentsTableView.getSelectionModel().getSelectedItem());
                 loadModifyAppointment(actionEvent);
             }
         } else if (monthlyAppointmentsTab.isSelected()) {
-            if (monthlyAppointmentsTableView.getSelectionModel().getSelectedItem() == null) {
-                return;
-            } else {
+            if (monthlyAppointmentsTableView.getSelectionModel().getSelectedItem() != null) {
                 Helper.setAppointmentToModify(monthlyAppointmentsTableView.getSelectionModel().getSelectedItem());
                 loadModifyAppointment(actionEvent);
             }
         } else if (weeklyAppointmentsTab.isSelected()) {
-            if (weeklyAppointmentsTableView.getSelectionModel().getSelectedItem() == null) {
-                return;
-            } else {
+            if (weeklyAppointmentsTableView.getSelectionModel().getSelectedItem() != null) {
                 Helper.setAppointmentToModify(weeklyAppointmentsTableView.getSelectionModel().getSelectedItem());
                 loadModifyAppointment(actionEvent);
             }
@@ -232,11 +225,9 @@ public class mainMenuController implements Initializable {
         weeklyAppointments.remove(appointment);
     }
 
-    public void deleteSelectedObject(ActionEvent actionEvent) {
+    public void deleteSelectedObject() {
         if (customerTab.isSelected()) {
-            if (customerTableView.getSelectionModel().getSelectedItem() == null) {
-                return;
-            } else {
+            if (customerTableView.getSelectionModel().getSelectedItem() != null) {
                 Customer customer = customerTableView.getSelectionModel().getSelectedItem();
                 if (ClientScheduleSelectQry.checkCustomerAppointments(customer.getCustomerID())) {
                     statusUpdate.setText("Delete failed. Customer has scheduled appointments.");
@@ -247,23 +238,17 @@ public class mainMenuController implements Initializable {
                 }
             }
         } else if (allAppointmentsTab.isSelected()) {
-            if (allAppointmentsTableView.getSelectionModel().getSelectedItem() == null) {
-                return;
-            } else {
+            if (allAppointmentsTableView.getSelectionModel().getSelectedItem() != null) {
                 Appointment appointment = allAppointmentsTableView.getSelectionModel().getSelectedItem();
                 removeAppointment(appointment);
             }
         } else if (monthlyAppointmentsTab.isSelected()) {
-            if (monthlyAppointmentsTableView.getSelectionModel().getSelectedItem() == null) {
-                return;
-            } else {
+            if (monthlyAppointmentsTableView.getSelectionModel().getSelectedItem() != null) {
                 Appointment appointment = monthlyAppointmentsTableView.getSelectionModel().getSelectedItem();
                 removeAppointment(appointment);
             }
         } else if (weeklyAppointmentsTab.isSelected()) {
-            if (weeklyAppointmentsTableView.getSelectionModel().getSelectedItem() == null) {
-                return;
-            } else {
+            if (weeklyAppointmentsTableView.getSelectionModel().getSelectedItem() != null) {
                 Appointment appointment = weeklyAppointmentsTableView.getSelectionModel().getSelectedItem();
                 removeAppointment(appointment);
             }
