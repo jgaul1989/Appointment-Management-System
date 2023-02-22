@@ -83,9 +83,9 @@ public class mainMenuController implements Initializable {
         initializeAppointmentTable();
         initializeMonthlyAppointments();
         initializeWeeklyAppointments();
-        if (!Helper.isIsAlertedAboutUpcomingAppointment()) {
+        if (!Helper.getIsAlerted()) {
             checkForAppointmentIn15Min();
-            Helper.setIsAlertedAboutUpcomingAppointment(true);
+            Helper.setIsAlerted(true);
         }
     }
     private void checkForAppointmentIn15Min() {

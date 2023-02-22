@@ -8,6 +8,7 @@ import jgaul.model.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Comparator;
 
 
 public abstract class Helper {
@@ -20,24 +21,24 @@ public abstract class Helper {
     public static final ObservableList<Contact> allContacts = FXCollections.observableArrayList();
     public static final ObservableList<User> allUsers = FXCollections.observableArrayList();
     public static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
+    public static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
     public static final ObservableList<AppointmentType> allAppointmentTypes = FXCollections.observableArrayList();
     private static User currentUser;
     private static Customer customerToModify;
     private static Appointment appointmentToModify;
-    private static boolean isAlertedAboutUpcomingAppointment = false;
-    public static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
+    private static boolean isAlerted = false;
 
-    public static boolean isIsAlertedAboutUpcomingAppointment() {
-        return isAlertedAboutUpcomingAppointment;
+    public static boolean getIsAlerted() {
+        return isAlerted;
     }
 
-    public static void setIsAlertedAboutUpcomingAppointment(boolean isAlertedAboutUpcomingAppointment) {
-        Helper.isAlertedAboutUpcomingAppointment = isAlertedAboutUpcomingAppointment;
+    public static void setIsAlerted(boolean isAlerted) {
+        Helper.isAlerted = isAlerted;
     }
 
     public static void initializeConstantFields() {
         ClientScheduleSelectQry.selectAllUsers(allUsers);
-        allUsers.sort((user1, user2) -> user1.getUserID() - user2.getUserID());
+        allUsers.sort(Comparator.comparingInt(User::getUserID));
 
         ClientScheduleSelectQry.selectAllCountries(allCountries);
         ClientScheduleSelectQry.selectAllDivisions(allDivisions);
@@ -53,8 +54,6 @@ public abstract class Helper {
         }
         allAppointmentTypes.add(new AppointmentType("Planning Session"));
         allAppointmentTypes.add(new AppointmentType("De-Briefing"));
-        allAppointmentTypes.add(new AppointmentType("Risk Management"));
-        allAppointmentTypes.add(new AppointmentType("Coaching"));
     }
 
     public static boolean checkForBlankString(String errorMessage, String toCheck) {
@@ -112,9 +111,11 @@ public abstract class Helper {
     public static void setCustomerToModify(Customer customerToModify) {
         Helper.customerToModify = customerToModify;
     }
+
     public static void setAppointmentToModify(Appointment appointmentToModify) {
         Helper.appointmentToModify = appointmentToModify;
     }
+
     public static Appointment getAppointmentToModify() {
         return appointmentToModify;
     }

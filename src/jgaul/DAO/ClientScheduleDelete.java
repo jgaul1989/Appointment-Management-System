@@ -1,10 +1,6 @@
 package jgaul.DAO;
 
-import jgaul.utility.Helper;
-
 import java.sql.PreparedStatement;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public abstract class ClientScheduleDelete {
 

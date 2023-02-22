@@ -12,7 +12,6 @@ public abstract class ClientScheduleUpdate {
 
     public static void modifyCustomer(int customerId, String name, String address, String postalCode,
                                       String phone, Division division) {
-
         String sql ="Update customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, " +
                 "Last_Update = ?, Last_Updated_By = ?, Division_ID = ? " +
                 "WHERE Customer_ID = ?";
@@ -33,7 +32,6 @@ public abstract class ClientScheduleUpdate {
     }
 
     public static void modifyAppointment(Appointment appointmentToModify) {
-
         String sql ="Update appointments SET Title = ?, Description = ?, Location = ?, " +
                 "Type = ?, Start = ?, End = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? " +
                 "WHERE Appointment_ID = ?";
@@ -45,7 +43,7 @@ public abstract class ClientScheduleUpdate {
             updateStatement.setString(4, appointmentToModify.getType());
             updateStatement.setString(5, appointmentToModify.getStartDateAsDateTime().toString());
             updateStatement.setString(6, appointmentToModify.getEndDateAsDateTime().toString());
-            updateStatement.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));;
+            updateStatement.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
             updateStatement.setString(8, Helper.getCurrentUser().getUsername());
             updateStatement.setInt(9, appointmentToModify.getCustomerID());
             updateStatement.setInt(10, appointmentToModify.getUserID());

@@ -49,7 +49,7 @@ public class loginController implements Initializable {
         String password = passwordTextField.getText();
         currentUser = new User(username, password);
 
-        if (ClientScheduleSelectQry.selectValidUser(currentUser)) {
+        if (ClientScheduleSelectQry.isValidUser(currentUser)) {
             Helper.setCurrentUser(currentUser);
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/mainMenu.fxml"));
             Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();

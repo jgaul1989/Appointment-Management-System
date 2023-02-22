@@ -11,7 +11,6 @@ public abstract class ClientScheduleInsert {
 
     public static void insertIntoCustomers(String name, String address, String postalCode,
                                            String phone, Division division){
-
         String sql = "INSERT into customers(Customer_Name, Address, Postal_Code, Phone, Create_Date," +
                 " Created_By, Last_Update, Last_Updated_By, Division_ID) " +
                 "VALUES (?,?,?,?,?,?,?,?,?)";
@@ -34,7 +33,6 @@ public abstract class ClientScheduleInsert {
 
     public static void insertIntoAppointments(String title, String description, String location, AppointmentType type, LocalDateTime start,
                                               LocalDateTime end, Customer customer, User user, Contact contact) {
-
         String sql = "INSERT into appointments(Title, Description, Location, Type, Start, End, Create_Date, Created_By, " +
                 "Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

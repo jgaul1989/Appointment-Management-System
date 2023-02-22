@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 public abstract class ClientScheduleSelectQry {
 
-    public static boolean selectValidUser(User currentUser) {
+    public static boolean isValidUser(User currentUser) {
         String validUserPassword = "";
         try {
             String sql = "SELECT User_ID, Password FROM users WHERE User_Name = ?";
@@ -53,7 +53,6 @@ public abstract class ClientScheduleSelectQry {
                 Customer nextCustomer = new Customer(customerID, name, address, postalCode, phoneNumber, division, country);
                 allCustomers.add(nextCustomer);
             }
-
         } catch(SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -61,7 +60,6 @@ public abstract class ClientScheduleSelectQry {
 
     public static void selectAllCountries(ObservableList<Country> allCountries) {
         String sql = "SELECT Country, Country_ID FROM countries";
-
         try {
             PreparedStatement selectCountries = JDBC.getConnection().prepareStatement(sql);
             ResultSet resultSet = selectCountries.executeQuery();
@@ -77,7 +75,6 @@ public abstract class ClientScheduleSelectQry {
 
     public static void selectAllContacts(ObservableList<Contact> allContacts) {
         String sql = "SELECT Contact_ID, Contact_Name FROM contacts";
-
         try {
             PreparedStatement selectContacts = JDBC.getConnection().prepareStatement(sql);
             ResultSet resultSet = selectContacts.executeQuery();
@@ -93,7 +90,6 @@ public abstract class ClientScheduleSelectQry {
 
     public static void selectAllUsers(ObservableList<User> allUsers) {
         String sql = "SELECT User_ID, User_Name FROM users";
-
         try {
             PreparedStatement selectUsers = JDBC.getConnection().prepareStatement(sql);
             ResultSet resultSet = selectUsers.executeQuery();
@@ -109,7 +105,6 @@ public abstract class ClientScheduleSelectQry {
 
     public static void selectAllDivisions(ObservableList<Division> allDivisions) {
         String sql = "SELECT Division_ID, Division, Country_ID FROM first_level_divisions";
-
         try {
             PreparedStatement selectDivisions = JDBC.getConnection().prepareStatement(sql);
             ResultSet resultSet = selectDivisions.executeQuery();
@@ -125,7 +120,6 @@ public abstract class ClientScheduleSelectQry {
     }
 
     public static void selectAllAppointments(ObservableList<Appointment> allAppointments) {
-
         String sql = "SELECT Appointment_ID, Title, Description, Location, Type, Start, End, Customer_ID, User_ID, contacts.Contact_ID, Contact_Name " +
                 "FROM appointments " +
                 "INNER JOIN contacts ON appointments.Contact_ID = contacts.Contact_ID";
@@ -152,11 +146,11 @@ public abstract class ClientScheduleSelectQry {
                         contactName, startConvertedDateTime, endConvertedDateTime, customerID, userID, contactID);
                 allAppointments.add(nextAppointment);
             }
-
         } catch(SQLException e) {
             System.out.println(e.getMessage());
         }
     }
+
     public static boolean checkAppointmentsConflicts(Customer customer, LocalDateTime appointment, int appointmentID) {
         int count = 0;
         String sql = "SELECT * FROM appointments " +
@@ -176,9 +170,10 @@ public abstract class ClientScheduleSelectQry {
         return count > 0;
     }
 
-    public static boolean checkAppointmentConflicts(Customer customer, LocalDateTime startTime, LocalDateTime endTime, boolean checkStart, int appointmentID) {
+    public static boolean checkAppointmentConflicts(Customer customer, LocalDateTime startTime, LocalDateTime endTime,
+                                                    boolean checkStart, int appointmentID) {
         int count = 0;
-        String sql = "";
+        String sql;
         if (checkStart) {
             sql = "SELECT * FROM appointments " +
                     "WHERE NOT Appointment_ID = ? AND Customer_ID = ? AND Start BETWEEN ? AND ?";
@@ -219,7 +214,7 @@ public abstract class ClientScheduleSelectQry {
     }
     public static int selectAptByTypeAndMonth(String month, String appointmentType) {
         String sql = "SELECT COUNT(*) AS NUM FROM appointments " +
-                "WHERE Type = ? AND monthname(START) = ?";
+                "WHERE Type = ? AND monthname(START) = ?"; //monthname is not a typo. It is the correct syntax for mysql.
         int count = 0;
         try {
             PreparedStatement selectAppointments = JDBC.getConnection().prepareStatement(sql);
