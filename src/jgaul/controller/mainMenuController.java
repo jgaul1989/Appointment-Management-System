@@ -269,4 +269,11 @@ public class mainMenuController implements Initializable {
             }
         }
     }
+
+    public void viewReports(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/reports.fxml"));
+        Stage window = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        window.setScene(new Scene(root));
+        window.show();
+    }
 }

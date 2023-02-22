@@ -1,8 +1,14 @@
 package jgaul.controller;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -16,5 +22,15 @@ public class reportController implements Initializable {
     }
 
     public void calculateTypeMonth(ActionEvent actionEvent) {
+    }
+
+    public void generateSchedule(ActionEvent actionEvent) {
+    }
+
+    public void backToMain(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/mainMenu.fxml"));
+        Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+        window.setScene(new Scene(root));
+        window.show();
     }
 }
