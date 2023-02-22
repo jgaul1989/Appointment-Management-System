@@ -226,7 +226,7 @@ public class mainMenuController implements Initializable {
 
     private void removeAppointment(Appointment appointment) {
         ClientScheduleDelete.deleteAppointment(appointment.getAppointmentID());
-        statusUpdate.setText("Successfully deleted Appointment ID " + appointment.getAppointmentID());
+        statusUpdate.setText("Successfully cancelled Appointment ID# " + appointment.getAppointmentID() + ": " + appointment.getType());
         allAppointments.remove(appointment);
         monthlyAppointments.remove(appointment);
         weeklyAppointments.remove(appointment);
