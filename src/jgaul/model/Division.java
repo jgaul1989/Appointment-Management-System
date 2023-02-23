@@ -1,5 +1,6 @@
 package jgaul.model;
 
+/** This class contains information about divisions which are states or provinces.*/
 public class Division {
     private final String name;
     private final int countryID;
@@ -11,18 +12,30 @@ public class Division {
         this.divisionID = divisionID;
     }
 
+    /** Gets the division name.
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /** Gets the countryID used in the database.
+     * @return the countryID
+     */
     public int getCountryID() {
         return countryID;
     }
 
+    /** Gets the divisionID used in the database.
+     * @return the divisionID
+     */
     public int getDivisionID() {
         return divisionID;
     }
 
+    /** Overridden toString method for javaFX combo-boxes.
+     * @return the name
+     */
     @Override
     public String toString() {
         return getName();

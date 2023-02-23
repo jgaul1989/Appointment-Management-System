@@ -2,6 +2,7 @@ package jgaul.model;
 
 import java.util.Objects;
 
+/** This class is used to store information about contacts for appointments and customers.*/
 public class Contact {
 
     private final int contactID;
@@ -12,19 +13,29 @@ public class Contact {
         this.name = name;
     }
 
+    /** Gets the contact ID.
+     * @return the contactID
+     */
     public int getContactID() {
         return contactID;
     }
 
+    /** Gets the contact name.
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /** Overridden toString method for combo-boxes.
+     * @return the name
+     */
     @Override
     public String toString() {
         return name;
     }
 
+    /** Overridden equals method for comparing contacts.*/
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

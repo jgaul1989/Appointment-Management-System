@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
+/** This class is used to store information about each appointment.*/
 public class Appointment {
 
     private final int appointmentID;
@@ -31,59 +32,100 @@ public class Appointment {
         this.userID = userID;
     }
 
+    /** Gets the appointment ID.
+     * @return the appointmentID
+     */
     public int getAppointmentID() {
         return appointmentID;
     }
 
+    /** Gets the title of the appointment.
+     * @return the title
+     */
     public String getTitle() {
         return title;
     }
 
+    /** Gets the appointment description.
+     * @return the description
+     */
     public String getDescription() {
         return description;
     }
 
+    /** Gets the appointment location.
+     * @return the location
+     */
     public String getLocation() {
         return location;
     }
 
+    /** Gets the type of appointment as a strings for table views.
+     * @return the type
+     */
     public String getType() {
         return type.getType();
     }
 
+    /** Gets the appointment type as an object for combo boxes.
+     * @return the type
+     */
     public AppointmentType getTypeAsType() {
         return type;
     }
 
+    /** Gets the appointment contact name as a string for table views.
+     * @return the contact name
+     */
     public String getContact() {
         return contact.getName();
     }
 
+    /** Gets the appointment contact as a contact object.
+     * @return the contact
+     */
     public Contact getContactAsContact() {
         return contact;
     }
 
+    /** Gets the start time as a formatted string for table views.
+     * @return the formatted start time
+     */
     public String getStartTime() {
         return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(startTime);
     }
 
+    /** Gets the appointment start time as LocalDateTime
+     * @return the startTime
+     */
     public LocalDateTime getStartDateAsDateTime() {
         return startTime;
     }
 
+    /** Gets the appointment end time as a formatted string for table views.
+     * @return the formatted end time
+     */
     public String getEndTime() {
         return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(endTime);
     }
 
+    /** Gets the appointment end time as LocalDateTime.
+     * @return the endTime
+     */
     public LocalDateTime getEndDateAsDateTime() {
         return endTime;
     }
 
-
+    /** Gets the appointment customer ID.
+     * @return the customerID
+     */
     public int getCustomerID() {
         return customerID;
     }
 
+    /** Gets the UserID.
+     * @return the userID
+     */
     public int getUserID() {
         return userID;
     }
