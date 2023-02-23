@@ -8,8 +8,17 @@ import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/** This class is used to update information in the database.*/
 public abstract class ClientScheduleUpdate {
 
+    /** Modifies information about customers in the database.
+     * @param customerId the id
+     * @param name the name
+     * @param address the address
+     * @param postalCode the postal code
+     * @param division the division
+     * @param phone the phone number
+     */
     public static void modifyCustomer(int customerId, String name, String address, String postalCode,
                                       String phone, Division division) {
         String sql ="Update customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, " +
@@ -31,6 +40,9 @@ public abstract class ClientScheduleUpdate {
         }
     }
 
+    /** Modifies appointment information in the database.
+     * @param appointmentToModify the appointment to modify
+     */
     public static void modifyAppointment(Appointment appointmentToModify) {
         String sql ="Update appointments SET Title = ?, Description = ?, Location = ?, " +
                 "Type = ?, Start = ?, End = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? " +

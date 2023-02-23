@@ -10,8 +10,13 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/** This class is used for Select Queries in the database.*/
 public abstract class ClientScheduleSelectQry {
 
+    /** This method checks if a user trying to login to the application exists in the database.
+     * @param currentUser user login credentials
+     * @return true if valid user
+     */
     public static boolean isValidUser(User currentUser) {
         String validUserPassword = "";
         try {
@@ -34,6 +39,9 @@ public abstract class ClientScheduleSelectQry {
         } else return validUserPassword.equals(currentUser.getPassword());
     }
 
+    /** Selects all customers from the database and adds them to a list.
+     * @param allCustomers the list of customers
+     */
     public static void selectAllCustomers(ObservableList<Customer> allCustomers) {
         String sql = "SELECT Customer_ID, Customer_Name, Address, Postal_Code, Phone, Division, Country " +
                 "FROM customers " +
@@ -58,6 +66,9 @@ public abstract class ClientScheduleSelectQry {
         }
     }
 
+    /** Selects all countries from the database and adds them to a list.
+     * @param allCountries the list of countries
+     */
     public static void selectAllCountries(ObservableList<Country> allCountries) {
         String sql = "SELECT Country, Country_ID FROM countries";
         try {
@@ -73,6 +84,9 @@ public abstract class ClientScheduleSelectQry {
         }
     }
 
+    /** Selects all contacts from the database and adds them to a list.
+     * @param allContacts the contact list
+     */
     public static void selectAllContacts(ObservableList<Contact> allContacts) {
         String sql = "SELECT Contact_ID, Contact_Name FROM contacts";
         try {
@@ -88,6 +102,9 @@ public abstract class ClientScheduleSelectQry {
         }
     }
 
+    /** Selects all users from the database and adds them to a list.
+     * @param allUsers the user list
+     */
     public static void selectAllUsers(ObservableList<User> allUsers) {
         String sql = "SELECT User_ID, User_Name FROM users";
         try {
@@ -103,6 +120,9 @@ public abstract class ClientScheduleSelectQry {
         }
     }
 
+    /** Selects all divisions from the database and adds them to a list.
+     * @param allDivisions the division list
+     */
     public static void selectAllDivisions(ObservableList<Division> allDivisions) {
         String sql = "SELECT Division_ID, Division, Country_ID FROM first_level_divisions";
         try {
@@ -119,6 +139,9 @@ public abstract class ClientScheduleSelectQry {
         }
     }
 
+    /** Selects all appointments from the database and adds them to a list.
+     * @param allAppointments the appointment list
+     */
     public static void selectAllAppointments(ObservableList<Appointment> allAppointments) {
         String sql = "SELECT Appointment_ID, Title, Description, Location, Type, Start, End, Customer_ID, User_ID, contacts.Contact_ID, Contact_Name " +
                 "FROM appointments " +
@@ -151,6 +174,12 @@ public abstract class ClientScheduleSelectQry {
         }
     }
 
+    /** Checks if an appointment time conflicts with an existing appointment in the database.
+     * @param customer the customer for the appointment
+     * @param appointment the appointment time
+     * @param appointmentID the primary key of the appointment being checked
+     * @return true if there is a time conflict
+     */
     public static boolean checkAppointmentsConflicts(Customer customer, LocalDateTime appointment, int appointmentID) {
         int count = 0;
         String sql = "SELECT * FROM appointments " +
@@ -170,6 +199,14 @@ public abstract class ClientScheduleSelectQry {
         return count > 0;
     }
 
+    /** Checks if an appointment time conflicts with an existing appointment in the database.
+     * @param customer the customer for the appointment
+     * @param startTime the appointment start time
+     * @param endTime the appointment end time
+     * @param appointmentID the primary key of the appointment being checked
+     * @param checkStart a boolean flag to indicate if the start or end time of an existing appointment should be checked
+     * @return true if there is a time conflict
+     */
     public static boolean checkAppointmentConflicts(Customer customer, LocalDateTime startTime, LocalDateTime endTime,
                                                     boolean checkStart, int appointmentID) {
         int count = 0;
@@ -197,6 +234,10 @@ public abstract class ClientScheduleSelectQry {
         return count > 0;
     }
 
+    /** This method is used to check if a customer has any appointments before they can be deleted.
+     * @param customerID the customer ID
+     * @return true if appointments exist
+     */
     public static boolean checkCustomerAppointments(int customerID) {
         String sql = "SELECT * FROM appointments WHERE Customer_ID = ?";
         int count = 0;
@@ -212,6 +253,12 @@ public abstract class ClientScheduleSelectQry {
         }
         return count > 0;
     }
+
+    /** Counts the number of appointments by type for each month.
+     * @param month the month
+     * @param appointmentType the type
+     * @return the total number of appointments
+     */
     public static int selectAptByTypeAndMonth(String month, String appointmentType) {
         String sql = "SELECT COUNT(*) AS NUM FROM appointments " +
                 "WHERE Type = ? AND monthname(START) = ?"; //monthname is not a typo. It is the correct syntax for mysql.
@@ -230,6 +277,11 @@ public abstract class ClientScheduleSelectQry {
         return count;
     }
 
+    /** Counts the amount of appointments for a given customer by a given type
+     * @param customerID the customer ID
+     * @param appointmentType the appointment type
+     * @return the amount of appointments
+     */
     public static int selectCustomerAptByType(int customerID, String appointmentType) {
         String sql = "SELECT COUNT(*) AS NUM FROM appointments " +
                 "WHERE Type = ? AND Customer_ID = ?";

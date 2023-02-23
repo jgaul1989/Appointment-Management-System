@@ -7,8 +7,16 @@ import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+/** This class contains SQL statements for inserting objects into the database.*/
 public abstract class ClientScheduleInsert {
 
+    /** Used to insert customers into the database.
+     * @param name customer name
+     * @param address customer address
+     * @param postalCode customer postalCode
+     * @param phone customer phone
+     * @param division customer division
+     */
     public static void insertIntoCustomers(String name, String address, String postalCode,
                                            String phone, Division division){
         String sql = "INSERT into customers(Customer_Name, Address, Postal_Code, Phone, Create_Date," +
@@ -31,6 +39,17 @@ public abstract class ClientScheduleInsert {
         }
     }
 
+    /** Used to insert appointments into the database.
+     * @param contact the appointment contact
+     * @param customer the appointment customer
+     * @param description the appointment description
+     * @param location the appointment location
+     * @param start the start time
+     * @param end the end time
+     * @param title the appointment title
+     * @param type the appointment type
+     * @param user the user
+     */
     public static void insertIntoAppointments(String title, String description, String location, AppointmentType type, LocalDateTime start,
                                               LocalDateTime end, Customer customer, User user, Contact contact) {
         String sql = "INSERT into appointments(Title, Description, Location, Type, Start, End, Create_Date, Created_By, " +

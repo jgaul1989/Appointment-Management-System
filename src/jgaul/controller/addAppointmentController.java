@@ -22,6 +22,7 @@ import java.net.URL;
 import java.time.*;
 import java.util.ResourceBundle;
 
+/** This class is the controller for adding appointments.*/
 public class addAppointmentController implements Initializable {
 
     public ComboBox<Contact> contactCB;

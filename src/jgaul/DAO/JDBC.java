@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/** This class is used for opening and closing the database connection.*/
 public abstract class JDBC {
     private static final String protocol = "jdbc";
     private static final String vendor = ":mysql:";
@@ -15,21 +16,23 @@ public abstract class JDBC {
     private static final String password = "Passw0rd!"; // Password
     private static Connection connection;
 
+    /** This method is used connecting to the database.*/
     public static void makeConnection() {
-
         try {
             Class.forName(driver); // Locate Driver
-            //password = Details.getPassword(); // Assign password
-            connection = DriverManager.getConnection(jdbcUrl, userName, password); // reference Connection object
+            connection = DriverManager.getConnection(jdbcUrl, userName, password);
         } catch (Exception e) {
             System.out.println("Error:" + e.getMessage());
         }
     }
-
+    /** Gets the database connection.
+     * @return the connection
+     */
     public static Connection getConnection() {
         return connection;
     }
 
+    /** Closes the database connection.*/
     public static void closeConnection() {
         try {
             connection.close();
