@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/** This is the class controller for the main menu.*/
 public class mainMenuController implements Initializable {
     public TableView<Customer> customerTableView;
     public TableColumn<Customer, Integer> customerTableIDCol;

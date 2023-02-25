@@ -20,6 +20,7 @@ import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/** This is the class controller for the login menu.*/
 public class loginController implements Initializable {
     public Button loginButton;
     public Label usernameLabel;
