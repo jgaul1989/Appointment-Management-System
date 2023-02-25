@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/** This class is used to add customers to the database.*/
 public class addCustomerController implements Initializable {
     public ComboBox<Country> countryCB;
     public TextField customerNameTF;
@@ -26,11 +27,15 @@ public class addCustomerController implements Initializable {
     public TextField phoneTF;
     public ComboBox<Division> divisionCB;
 
+    /** Initializes the add customer controller and sets the country combo-box.*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         countryCB.setItems(Helper.allCountries);
     }
 
+    /** Adds a new customer to the database only if all fields are valid.
+     * @param actionEvent the submit customer button
+     */
     public void submitCustomer(ActionEvent actionEvent) throws IOException {
         String name = customerNameTF.getText();
         if (Helper.checkForBlankString("Name field is blank.", name)) {
@@ -57,6 +62,9 @@ public class addCustomerController implements Initializable {
         backToMain(actionEvent);
     }
 
+    /** Sends the user back to the main menu.
+     * @param actionEvent the submit or cancel button
+     */
     public void backToMain(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/mainMenu.fxml"));
         Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
@@ -64,6 +72,7 @@ public class addCustomerController implements Initializable {
         window.show();
     }
 
+    /** After a user selects a country this function sets the division combo-box with appropriate values.*/
     public void countrySelected() {
         int countryID = countryCB.getValue().getCountryID();
         if (countryID == 1) {

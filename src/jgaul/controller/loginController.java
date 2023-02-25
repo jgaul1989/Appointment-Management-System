@@ -32,6 +32,7 @@ public class loginController implements Initializable {
     public Label zoneIDLabel;
     private User currentUser;
 
+    /** Initializes the login controller.*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try  {
@@ -45,6 +46,9 @@ public class loginController implements Initializable {
         zoneIDLabel.setText(ZoneId.systemDefault().getId());
     }
 
+    /** Logs the user into the application if the credentials are valid.
+     * @param actionEvent the login button
+     */
     public void loginButtonClicked(ActionEvent actionEvent) throws IOException {
         String username = userNameTextField.getText();
         String password = passwordTextField.getText();
@@ -63,6 +67,9 @@ public class loginController implements Initializable {
         }
     }
 
+    /** Appends login information to a log file.
+     * @param isSuccessfulLogin boolean flag to indicate login success or fail
+     */
     private void generateLog(boolean isSuccessfulLogin) {
         File file = new File("login_activity.txt");
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(file, true)))) {
@@ -72,6 +79,7 @@ public class loginController implements Initializable {
         }
     }
 
+    /** Sets the text fields to the french language.*/
     private void setFrenchLanguage(){
         usernameLabel.setText(frenchLanguageTranslation.getString("Username"));
         passwordLabel.setText(frenchLanguageTranslation.getString("Password"));
@@ -79,6 +87,7 @@ public class loginController implements Initializable {
         locationLabel.setText(frenchLanguageTranslation.getString("Location"));
     }
 
+    /** Generates an error message in English or French if there is an unsuccessful login attempt.*/
     private void setLoginErrorMessage() {
         if(Locale.getDefault().getLanguage().equals("en")) {
             if (!currentUser.isValidUsername()) {

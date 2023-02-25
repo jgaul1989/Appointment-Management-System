@@ -77,6 +77,7 @@ public class mainMenuController implements Initializable {
     public ObservableList<Appointment> weeklyAppointments = FXCollections.observableArrayList();
     public Label statusUpdate;
 
+    /** Initializes the main menu controller.*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeCustomerTable();
@@ -88,6 +89,8 @@ public class mainMenuController implements Initializable {
             Helper.setIsAlerted(true);
         }
     }
+
+    /** Checks the start time for all appointment and displays a message to the user interface if an appointment starts in 15 minutes.*/
     private void checkForAppointmentIn15Min() {
         for (Appointment appointment: allAppointments) {
             LocalDateTime timeNow = LocalDateTime.now();
@@ -105,6 +108,10 @@ public class mainMenuController implements Initializable {
         }
     }
 
+    /** Sets all values in the customer table.
+     * This function uses a lambda expression by utilizing a method reference and a comparator to sort
+     * customers in the table by the customer ID. Utilizing the lambda expression is a more compact way of using the comparator
+     * interface and avoids having to create a full class declaration for a comparator only used once in the program.*/
     private void initializeCustomerTable() {
         Helper.allCustomers.clear();
         ClientScheduleSelectQry.selectAllCustomers(Helper.allCustomers);
@@ -119,6 +126,7 @@ public class mainMenuController implements Initializable {
         countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
     }
 
+    /** Sets all values in the all appointment table.*/
     private void initializeAppointmentTable() {
         ClientScheduleSelectQry.selectAllAppointments(allAppointments);
         allAppointmentsTableView.setItems(allAppointments);
@@ -134,6 +142,10 @@ public class mainMenuController implements Initializable {
         userIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
+    /** Sets all values in the monthly appointment table.
+     * This function uses a lambda expression to filter appointments that are in the current month from the list of all appointments.
+     * Utilizing the lambda expression enhances code readability and is more compact than writing a loop with conditionals for a simple
+     * filtering expression.*/
     private void initializeMonthlyAppointments() {
         allAppointments.stream()
                 .filter(appointment -> appointment.getStartDateAsDateTime().getMonth() == LocalDateTime.now().getMonth())
@@ -151,9 +163,14 @@ public class mainMenuController implements Initializable {
         monthUserIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
+    /** Sets all values in the weekly appointment table.
+     * This function uses a lambda expression to filter appointments that are in the current week from the list of all appointments.
+     * Utilizing the lambda expression enhances code readability and is more compact than writing a loop with conditionals for a simple
+     * filtering expression.*/
     private void initializeWeeklyAppointments() {
         allAppointments.stream()
-                .filter(appointment -> appointment.getStartDateAsDateTime().toLocalDate().get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) ==
+                .filter(appointment -> appointment.getStartDateAsDateTime().toLocalDate()
+                        .get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) ==
                         LocalDate.now().get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()))
                 .forEach(appointment -> weeklyAppointments.add(appointment));
         weeklyAppointmentsTableView.setItems(weeklyAppointments);
@@ -169,6 +186,9 @@ public class mainMenuController implements Initializable {
         weekUserIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
+    /** Loads the add customer or add appointment screen depending on which tab is selected.
+     * @param actionEvent the add button
+     */
     public void addSelectedObject(ActionEvent actionEvent) throws IOException {
         if (customerTab.isSelected()) {
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/addCustomer.fxml"));
@@ -183,6 +203,9 @@ public class mainMenuController implements Initializable {
         }
     }
 
+    /** Gets the selected appointment or customer for modification from the selected table.
+     * @param actionEvent the modify button
+     */
     public void modifySelectedObject(ActionEvent actionEvent) throws IOException {
         if (customerTab.isSelected()) {
             if (customerTableView.getSelectionModel().getSelectedItem() != null) {
@@ -210,6 +233,9 @@ public class mainMenuController implements Initializable {
         }
     }
 
+    /** Loads the modify appointment screen.
+     * @param actionEvent the modify button
+     */
     private void loadModifyAppointment(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/modifyAppointment.fxml"));
         Stage window = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -217,14 +243,9 @@ public class mainMenuController implements Initializable {
         window.show();
     }
 
-    private void removeAppointment(Appointment appointment) {
-        ClientScheduleDelete.deleteAppointment(appointment.getAppointmentID());
-        statusUpdate.setText("Successfully cancelled Appointment ID# " + appointment.getAppointmentID() + ": " + appointment.getType());
-        allAppointments.remove(appointment);
-        monthlyAppointments.remove(appointment);
-        weeklyAppointments.remove(appointment);
-    }
-
+    /** Gets the selected appointment or customer from the table and deletes from the database if there are no conflicts.
+     * This function passes the appointments to another function for removal.
+     */
     public void deleteSelectedObject() {
         if (customerTab.isSelected()) {
             if (customerTableView.getSelectionModel().getSelectedItem() != null) {
@@ -255,6 +276,20 @@ public class mainMenuController implements Initializable {
         }
     }
 
+    /** Removes an appointment from the database.
+     * @param appointment the appointment
+     */
+    private void removeAppointment(Appointment appointment) {
+        ClientScheduleDelete.deleteAppointment(appointment.getAppointmentID());
+        statusUpdate.setText("Successfully cancelled Appointment ID# " + appointment.getAppointmentID() + ": " + appointment.getType());
+        allAppointments.remove(appointment);
+        monthlyAppointments.remove(appointment);
+        weeklyAppointments.remove(appointment);
+    }
+
+    /** Loads the reports screen.
+     * @param actionEvent the report button
+     */
     public void viewReports(ActionEvent actionEvent) throws IOException {
         Helper.allAppointments.clear();
         Helper.allAppointments.addAll(allAppointments);

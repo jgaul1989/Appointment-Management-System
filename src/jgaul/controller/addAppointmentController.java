@@ -22,7 +22,7 @@ import java.net.URL;
 import java.time.*;
 import java.util.ResourceBundle;
 
-/** This class is the controller for adding appointments.*/
+/** This class is the controller for adding appointments to the database.*/
 public class addAppointmentController implements Initializable {
 
     public ComboBox<Contact> contactCB;
@@ -49,6 +49,7 @@ public class addAppointmentController implements Initializable {
     private Customer customer;
     private User user;
 
+    /** This function initializes the controller and sets the objects inside the combo-boxes.*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         contactCB.setItems(Helper.allContacts);
@@ -57,6 +58,9 @@ public class addAppointmentController implements Initializable {
         typeCB.setItems(Helper.allAppointmentTypes);
     }
 
+    /** This function submits an appointment to the database if all fields are complete and there are no time conflicts.
+     * @param actionEvent the submit button is clicked
+     */
     public void submitAppointment(ActionEvent actionEvent) throws IOException {
         if(!checkAllValues()) {
             return;
@@ -89,6 +93,7 @@ public class addAppointmentController implements Initializable {
         backToMain(actionEvent);
     }
 
+    /** Used to check all the fields for blank or null values.*/
     private boolean checkAllValues() {
         title = titleTF.getText();
         if (Helper.checkForBlankString("Title field is blank.", title)) {
@@ -130,6 +135,9 @@ public class addAppointmentController implements Initializable {
         return !Helper.checkForNullValue("User ID is blank.", user);
     }
 
+    /** Sends the user back to the main menu when the submit or cancel button is clicked.
+     * @param actionEvent the submit or cancel button clicked
+     */
     public void backToMain(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/mainMenu.fxml"));
         Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
@@ -137,6 +145,7 @@ public class addAppointmentController implements Initializable {
         window.show();
     }
 
+    /** This function sets the start time combo-box after the user selects an appointment date and converts eastern business hours to local time.*/
     public void dateSelected() {
         selectedDate = appointmentDateDP.getValue();
         startTimes.clear();
@@ -155,7 +164,10 @@ public class addAppointmentController implements Initializable {
         }
         startTimeCB.setItems(startTimes);
     }
-
+    /** After a user selects a start time this function sets the end time combo-box with times after the start time.
+     * This function uses a lambda expression to set the end time combo box by filtering times that are after the appointment start time.
+     * The lambda expression enhances code readability and is more concise than using a loop with conditionals.
+     */
     public void startTimeSelected() {
         if (startTimeCB.getValue() == null) {
             return;
