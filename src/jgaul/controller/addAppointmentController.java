@@ -164,6 +164,7 @@ public class addAppointmentController implements Initializable {
         }
         startTimeCB.setItems(startTimes);
     }
+
     /** After a user selects a start time this function sets the end time combo-box with times after the start time.
      * This function uses a lambda expression to set the end time combo box by filtering times that are after the appointment start time.
      * The lambda expression enhances code readability and is more concise than using a loop with conditionals.

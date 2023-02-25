@@ -22,6 +22,7 @@ import java.net.URL;
 import java.time.*;
 import java.util.ResourceBundle;
 
+/** This class is the controller for modifying customer appointments.*/
 public class modifyAppointmentController implements Initializable {
 
     public ComboBox<Contact> contactCB;
@@ -50,6 +51,7 @@ public class modifyAppointmentController implements Initializable {
     private Customer customer;
     private User user;
 
+    /** Initializes the modify appointment controller and sets combo boxes.*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         contactCB.setItems(Helper.allContacts);
@@ -59,6 +61,7 @@ public class modifyAppointmentController implements Initializable {
         setAllFields();
     }
 
+    /** Sets all text fields with information from the appointment to be modified.*/
     private void setAllFields() {
         appointmentIDTF.setText(String.valueOf(Helper.getAppointmentToModify().getAppointmentID()));
         titleTF.setText(Helper.getAppointmentToModify().getTitle());
@@ -85,6 +88,9 @@ public class modifyAppointmentController implements Initializable {
         }
     }
 
+    /** Submits an appointment to the database if all required fields contain valid data.
+     * @param actionEvent the submit button clicked
+     */
     public void submitAppointment(ActionEvent actionEvent) throws IOException {
         if(!checkAllValues()) {
             return;
@@ -118,6 +124,7 @@ public class modifyAppointmentController implements Initializable {
         backToMain(actionEvent);
     }
 
+    /** Checks all text fields for valid data.*/
     private boolean checkAllValues() {
         appointmentID = Integer.parseInt(appointmentIDTF.getText());
         title = titleTF.getText();
@@ -160,6 +167,9 @@ public class modifyAppointmentController implements Initializable {
         return !Helper.checkForNullValue("User ID is blank.", user);
     }
 
+    /** Loads the main menu.
+     * @param actionEvent the cancel button is clicked
+     */
     public void backToMain(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/mainMenu.fxml"));
         Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
@@ -167,6 +177,7 @@ public class modifyAppointmentController implements Initializable {
         window.show();
     }
 
+    /** This function sets the start time combo-box after the user selects an appointment date and converts eastern business hours to local time.*/
     public void dateSelected() {
         selectedDate = appointmentDateDP.getValue();
         startTimes.clear();
@@ -186,6 +197,10 @@ public class modifyAppointmentController implements Initializable {
         startTimeCB.setItems(startTimes);
     }
 
+    /** After a user selects a start time this function sets the end time combo-box with times after the start time.
+     * This function uses a lambda expression to set the end time combo box by filtering times that are after the appointment start time.
+     * The lambda expression enhances code readability and is more concise than using a loop with conditionals.
+     */
     public void startTimeSelected() {
         if (startTimeCB.getValue() == null) {
             return;

@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/** This class is the controller for modifying customer information.*/
 public class modifyCustomerController implements Initializable {
     public ComboBox<Country> countryCB;
     public TextField customerNameTF;
@@ -27,12 +28,17 @@ public class modifyCustomerController implements Initializable {
     public ComboBox<Division> divisionCB;
     public TextField customerIDTF;
 
+    /** Initializes the modify customer controller.*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         countryCB.setItems(Helper.allCountries);
         setTextFields();
     }
 
+    /** Sets all text fields with information of the customer to be modified.
+     * This function contains a lambda expression that filters through a list of countries and when a match is found
+     * to the customer's country it uses that value to set the country combo-box or sets it to a  default value if a customer does not have
+     * a country set in the database. The lambda expression enhances code readability compared to using a loop or an iterator and uses less lines of code.*/
     private void setTextFields(){
         customerIDTF.setText(String.valueOf(Helper.getCustomerToModify().getCustomerID()));
         customerNameTF.setText(Helper.getCustomerToModify().getCustomerName());
@@ -50,6 +56,9 @@ public class modifyCustomerController implements Initializable {
         setDivision(userCountry, divisionName);
     }
 
+    /** Submits customer information to the database if all data is valid.
+     * @param actionEvent the submit button is clicked
+     */
     public void submitCustomer(ActionEvent actionEvent) throws IOException {
         String name = customerNameTF.getText();
         if (Helper.checkForBlankString("Name field is blank.", name)) {
@@ -76,6 +85,9 @@ public class modifyCustomerController implements Initializable {
         backToMain(actionEvent);
     }
 
+    /** Sends the user back to the main menu.
+     * @param actionEvent the cancel button is clicked
+     */
     public void backToMain(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/mainMenu.fxml"));
         Stage window = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
@@ -83,6 +95,9 @@ public class modifyCustomerController implements Initializable {
         window.show();
     }
 
+    /** After a user selects a country from the combo box this function populates the division combo box with the
+     * correct values.
+     */
     public void countrySelected() {
         int countryID = countryCB.getValue().getCountryID();
         if (countryID == 1) {
@@ -94,6 +109,11 @@ public class modifyCustomerController implements Initializable {
         }
     }
 
+    /** This function sets the division combo box with the appropriate value for the customer to be modified.
+     * This function contains a lambda expression that filters through a division list and when a match is found to
+     * the customer's division it uses that value to initialize the division combo box. The lambda expression is more compact and readable
+     * than using a loop or iterator.
+     */
     private void setDivision(Country country, String divisionName) {
         int countryID = country.getCountryID();
         if (countryID == 1) {

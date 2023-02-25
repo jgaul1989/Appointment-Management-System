@@ -10,6 +10,7 @@ import jgaul.utility.Helper;
 
 public class Main extends Application {
 
+    /** This is the method that launches the JavaFX GUI. */
     @Override
     public void start(Stage stage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("../view/login.fxml"));
@@ -17,6 +18,7 @@ public class Main extends Application {
         stage.show();
     }
 
+    /** This is the main method that starts the program - JavaDoc files are in the separate zip file named javadoc. */
     public static void main(String[] args) {
         JDBC.makeConnection();
         Helper.initializeConstantFields();
